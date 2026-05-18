@@ -23,7 +23,7 @@
 
 ## ⚽ 2. SISTEMA DE PUNTUACIÓN (Fase de Grupos)
 
-Cada participante deberá pronosticar el orden completo de cada grupo, desde el primer (1°) hasta el cuarto (4°) puesto. Al finalizar la fase, los puntos se calcularán de la siguiente manera:
+Cada participante deberá pronosticar el orden completo de cada grupo, desde el primer (1°) hasta el cuarto (4°) puesto. Al finalizar la fase, los puntos se calcularán de la siguiente manera (Fecha limite para enviar y/o moddificar las respuestas es el 09/06/2026):
 
 1.  **Acierto de Posición Exacta (2 puntos):** Si el participante acierta la posición exacta en la que termina una selección dentro de su grupo, gana **2 puntos**.
 2.  **Acierto de Clasificación / Adicional (1 punto):** Si la selección elegida por el participante (ubicada originalmente en sus predicciones como 1°, 2° o entre los mejores terceros) logra clasificar a la siguiente ronda eliminatoria, suma **1 punto adicional**, sin importar si terminó o no en la posición exacta que se pronosticó.
