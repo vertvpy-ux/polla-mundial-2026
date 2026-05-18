@@ -1,1 +1,0 @@
-# polla-mundial-2026
