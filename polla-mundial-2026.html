@@ -946,6 +946,16 @@ async function loadAdminData() {
     sel.innerHTML = '<option value="">-- Elegir partido pendiente --</option>' +
       pendientes.map(p=>{
         const fila = cal.indexOf(p)+2;
+        let fechaHora = p[2] || '';  // columna de fecha
+        if (fechaHora.includes('T')) {
+          const [fecha, hora] = fechaHora.split('T');
+          const date = new Date(fecha);
+          const opciones = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
+          const fechaBonita = date.toLocaleDateString('es-PY', opciones)
+                           .replace(',', '') + ' - ' + (hora ? hora.substring(0,5) : p[3] || '');
+          fechaHora = fechaBonita;
+        }
+        
         return `<option value="${fila}|${p[4]}|${p[7]}">[Gr.${p[1]}] ${p[2]} ${p[3]} - ${p[4]} vs ${p[7]}</option>`;
       }).join('');
     renderPagos(fin, lbRaw.slice(1));
