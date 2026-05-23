@@ -460,11 +460,15 @@ function parseFechaHora(fecha, hora) {
   // Parsear hora
   const horaStr = String(hora||'');
   if (horaStr.includes('T')) {
-    // ISO timestamp para la hora: 1899-12-30T18:50:40.000Z (Google Sheets time serial)
+    // ISO timestamp para la hora: 1899-12-30T18:50:40.000Z (Google Sheets time serial en UTC)
+    // Paraguay es UTC-4, pero Google Sheets ya suma el offset local al serializar
+    // Usamos getUTCHours y restamos 4 para convertir a hora Paraguay
     const t = new Date(horaStr);
-    hh = t.getUTCHours(); mm = t.getUTCMinutes();
+    hh = t.getUTCHours() - 4;
+    if (hh < 0) hh += 24;
+    mm = t.getUTCMinutes();
   } else if (horaStr.includes(':')) {
-    // Formato "15:00"
+    // Formato "15:00" — ya viene en hora Paraguay
     const parts = horaStr.split(':');
     hh = parseInt(parts[0]); mm = parseInt(parts[1])||0;
   }
