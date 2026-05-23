@@ -436,6 +436,47 @@ function fmtGs(n) { return 'Gs. ' + Number(n||0).toLocaleString('es-PY'); }
 function fmtTime(d) { return d ? d.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'}) : '--'; }
 function errHTML(fn) { return `<div class="error-state"><div class="error-text">No se pudieron cargar los datos.</div><button class="btn btn-gold" onclick="${fn}()">Reintentar</button></div>`; }
 
+// Convierte fecha y hora de Google Sheets a objeto Date y textos legibles
+// Google Sheets puede enviar: "11-jun", "2026-06-11T03:00:00.000Z", "15:00", "2026-01-01T18:00:00.000Z"
+function parseFechaHora(fecha, hora) {
+  const MESES = {ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12,
+                 jan:1,apr:4,aug:8,oct:10,dec:12};
+  let day=0, month=0, hh=0, mm=0;
+
+  // Parsear fecha
+  const fechaStr = String(fecha||'');
+  if (fechaStr.includes('T')) {
+    // ISO: 2026-06-11T03:00:00.000Z
+    const d = new Date(fechaStr);
+    day = d.getUTCDate(); month = d.getUTCMonth()+1;
+  } else if (fechaStr.includes('-')) {
+    // Formato "11-jun" o "11-06"
+    const parts = fechaStr.split('-');
+    day = parseInt(parts[0]);
+    const monStr = parts[1].toLowerCase().substring(0,3);
+    month = MESES[monStr] || parseInt(parts[1]) || 6;
+  }
+
+  // Parsear hora
+  const horaStr = String(hora||'');
+  if (horaStr.includes('T')) {
+    // ISO timestamp para la hora: 1899-12-30T18:50:40.000Z (Google Sheets time serial)
+    const t = new Date(horaStr);
+    hh = t.getUTCHours(); mm = t.getUTCMinutes();
+  } else if (horaStr.includes(':')) {
+    // Formato "15:00"
+    const parts = horaStr.split(':');
+    hh = parseInt(parts[0]); mm = parseInt(parts[1])||0;
+  }
+
+  const MESES_NOMBRES = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const fechaLegible = `${day} ${MESES_NOMBRES[month]||''}`;
+  const horaLegible = `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+  const target = new Date(2026, month-1, day, hh, mm, 0);
+
+  return { fechaLegible, horaLegible, target };
+}
+
 // ── WELCOME ───────────────────────────────────────────────────────────────────
 async function initWelcome() {
   // Admin message
@@ -462,32 +503,27 @@ async function initWelcome() {
 
 function renderWelcomeMatch(p) {
   const el = document.getElementById('welcome-match-info');
+  const {fechaLegible, horaLegible, target} = parseFechaHora(p[2], p[3]);
   el.innerHTML = `
     <div class="welcome-match">
       <div class="welcome-team home">${p[4]}</div>
       <div class="welcome-vs">VS</div>
       <div class="welcome-team away">${p[7]}</div>
     </div>
-    <div class="welcome-date">Grupo ${p[1]} - ${p[2]} - ${p[3]}</div>
+    <div class="welcome-date">Grupo ${p[1]} - ${fechaLegible} - ${horaLegible}</div>
     <div class="countdown" id="cd-welcome">
       <div class="cd-item"><div class="cd-val" id="cd-d">--</div><div class="cd-lbl">Dias</div></div>
       <div class="cd-item"><div class="cd-val" id="cd-h">--</div><div class="cd-lbl">Horas</div></div>
       <div class="cd-item"><div class="cd-val" id="cd-m">--</div><div class="cd-lbl">Min</div></div>
       <div class="cd-item"><div class="cd-val" id="cd-s">--</div><div class="cd-lbl">Seg</div></div>
     </div>`;
-  startCountdown(p[2], p[3], 'cd-d','cd-h','cd-m','cd-s');
+  startCountdown(target, 'cd-d','cd-h','cd-m','cd-s');
 }
 
-function startCountdown(fecha, hora, dId, hId, mId, sId) {
+function startCountdown(target, dId, hId, mId, sId) {
   if (countdownInterval) clearInterval(countdownInterval);
   function update() {
     const now = new Date();
-    const parts = String(fecha).split('-');
-    const day = parts[0], mon = parts[1];
-    const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dic:11,jun:5,ene:0,feb:1,mar:2,abr:3,may:4,ago:7,sep:8,oct:9,nov:10};
-    const monIdx = months[String(mon).toLowerCase().substring(0,3)] || 5;
-    const [h,m] = String(hora).split(':');
-    const target = new Date(2026, monIdx, parseInt(day), parseInt(h)||0, parseInt(m)||0, 0);
     const diff = target - now;
     if (diff <= 0) {
       [dId,hId,mId,sId].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='00';});
@@ -536,6 +572,7 @@ async function renderInicio() {
 
     // Countdown banner
     if (nextMatch) {
+      const {fechaLegible, horaLegible, target: nextTarget} = parseFechaHora(nextMatch[2], nextMatch[3]);
       html += `<div class="cd-banner">
         <div class="cd-banner-lbl">Proximo partido - Grupo ${nextMatch[1]}</div>
         <div class="cd-banner-match">
@@ -543,7 +580,7 @@ async function renderInicio() {
           <div class="cd-banner-vs">VS</div>
           <div class="cd-banner-team a">${nextMatch[7]}</div>
         </div>
-        <div style="font-size:10px;color:var(--text2);text-align:center;margin-bottom:8px">${nextMatch[2]} - ${nextMatch[3]}</div>
+        <div style="font-size:10px;color:var(--text2);text-align:center;margin-bottom:8px">${fechaLegible} - ${horaLegible}</div>
         <div class="cd-inline">
           <div class="cd-chip"><div class="cd-chip-val" id="icd-d">--</div><div class="cd-chip-lbl">Dias</div></div>
           <div class="cd-chip"><div class="cd-chip-val" id="icd-h">--</div><div class="cd-chip-lbl">Horas</div></div>
@@ -586,7 +623,10 @@ async function renderInicio() {
       }).join('')}`;
 
     el.innerHTML = html;
-    if (nextMatch) startCountdown(nextMatch[2], nextMatch[3], 'icd-d','icd-h','icd-m','icd-s');
+    if (nextMatch) {
+      const {target: t} = parseFechaHora(nextMatch[2], nextMatch[3]);
+      startCountdown(t, 'icd-d','icd-h','icd-m','icd-s');
+    }
   } catch(e) { el.innerHTML = errHTML('renderInicio'); }
 }
 
@@ -872,10 +912,11 @@ async function renderPartidos() {
       ps.forEach(p=>{
         const ok=p[8]==='Finalizado', gL=p[5], gV=p[6];
         const isNext = nextMatch && p[4]===nextMatch[4]&&p[7]===nextMatch[7]&&p[2]===nextMatch[2];
+        const {fechaLegible, horaLegible} = parseFechaHora(p[2], p[3]);
         html+=`<div class="match-card ${ok?'played':isNext?'today':'pending'}">
           <div class="match-header">
             <div class="match-grp">Grupo ${g}</div>
-            <div class="match-date">${p[2]} - ${p[3]}</div>
+            <div class="match-date">${fechaLegible} - ${horaLegible}</div>
           </div>
           <div class="match-teams">
             <div class="team-name team-home">${p[4]}</div>
@@ -946,17 +987,8 @@ async function loadAdminData() {
     sel.innerHTML = '<option value="">-- Elegir partido pendiente --</option>' +
       pendientes.map(p=>{
         const fila = cal.indexOf(p)+2;
-        let fechaHora = p[2] || '';  // columna de fecha
-        if (fechaHora.includes('T')) {
-          const [fecha, hora] = fechaHora.split('T');
-          const date = new Date(fecha);
-          const opciones = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-          const fechaBonita = date.toLocaleDateString('es-PY', opciones)
-                           .replace(',', '') + ' - ' + (hora ? hora.substring(0,5) : p[3] || '');
-          fechaHora = fechaBonita;
-        }
-        
-        return `<option value="${fila}|${p[4]}|${p[7]}">[Gr.${p[1]}] ${p[2]} ${p[3]} - ${p[4]} vs ${p[7]}</option>`;
+        const {fechaLegible, horaLegible} = parseFechaHora(p[2], p[3]);
+        return `<option value="${fila}|${p[4]}|${p[7]}">[Gr.${p[1]}] ${fechaLegible} ${horaLegible} - ${p[4]} vs ${p[7]}</option>`;
       }).join('');
     renderPagos(fin, lbRaw.slice(1));
   } catch(e) { showToast('Error cargando datos admin','error'); }
