@@ -39,8 +39,55 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .live-row{font-size:11px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:5px}
 .dot-live{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* WELCOME MODAL */
+.welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.welcome-overlay.hide{display:none}
+.welcome-box{background:linear-gradient(135deg,#111118 0%,#1a1a2e 100%);border:1px solid var(--gold2);border-radius:20px;padding:24px;width:100%;max-width:400px;text-align:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.welcome-ball{font-size:52px;margin-bottom:12px;animation:bounce 1s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.welcome-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--gold);margin-bottom:4px}
+.welcome-sub{font-size:13px;color:var(--text2);margin-bottom:16px}
+.welcome-admin-msg{background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--gold);line-height:1.5;text-align:left;display:none}
+.welcome-admin-msg.show{display:block}
+.welcome-next{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
+.welcome-next-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.welcome-match{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.welcome-team{font-weight:600;font-size:13px;flex:1}
+.welcome-team.home{text-align:right}
+.welcome-team.away{text-align:left}
+.welcome-vs{background:var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--text2);font-weight:600}
+.welcome-date{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;margin-bottom:10px}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cd-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
+.cd-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);line-height:1}
+.cd-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.welcome-btn{width:100%;padding:12px;border:none;border-radius:10px;background:var(--gold);color:#000;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:var(--tr)}
+.welcome-btn:hover{background:var(--gold2)}
+
+/* COUNTDOWN BANNER */
+.cd-banner{background:linear-gradient(135deg,#0a0f1a 0%,#111827 100%);border:1px solid var(--blue);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+.cd-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(74,158,255,.05),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.cd-banner-lbl{font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.cd-banner-match{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:8px}
+.cd-banner-team{font-weight:600;font-size:13px;flex:1}
+.cd-banner-team.h{text-align:right}
+.cd-banner-team.a{text-align:left}
+.cd-banner-vs{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--text2)}
+.cd-inline{display:flex;gap:8px;justify-content:center}
+.cd-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;text-align:center;min-width:48px}
+.cd-chip-val{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--blue);line-height:1}
+.cd-chip-lbl{font-size:9px;color:var(--text3);text-transform:uppercase}
+
+/* ADMIN MSG BANNER */
+.admin-msg-banner{background:linear-gradient(135deg,#1a1500,#2a2000);border:1px solid var(--gold2);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--gold);line-height:1.5;display:none}
+.admin-msg-banner.show{display:block}
+.admin-msg-banner strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;color:var(--gold2)}
+
+/* POZO */
 .pozo-banner{background:linear-gradient(135deg,#1a1500 0%,#2a2000 50%,#1a1500 100%);border:1px solid var(--gold2);border-radius:var(--radius);padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
-.pozo-banner::before{content:'x';position:absolute;right:-8px;top:-8px;font-size:72px;opacity:.04}
 .pozo-label{font-size:10px;color:var(--gold2);text-transform:uppercase;letter-spacing:2px;margin-bottom:3px}
 .pozo-amount{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);line-height:1;letter-spacing:2px}
 .pozo-amount span{font-size:16px;color:var(--gold2)}
@@ -48,33 +95,45 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .pozo-item{text-align:center}
 .pozo-item-val{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--text)}
 .pozo-item-lbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* STATS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
 .stat-card-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stat-card-lbl{font-size:10px;color:var(--text2);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
 .c-green{color:var(--green)}.c-red{color:var(--red)}.c-blue{color:var(--blue)}.c-gold{color:var(--gold)}.c-silver{color:var(--silver)}.c-bronze{color:var(--bronze)}.c-purple{color:var(--purple)}
-.lb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px;transition:var(--tr);cursor:pointer}
+
+/* LEADERBOARD */
+.lb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px;transition:var(--tr);cursor:pointer;position:relative}
 .lb-card:hover{border-color:var(--gold2);transform:translateX(2px)}
 .lb-card.expanded{border-color:var(--gold)}
+.lb-card.pos-1-card{border-left:3px solid var(--gold)}
+.lb-card.pos-2-card{border-left:3px solid var(--silver)}
+.lb-card.pos-3-card{border-left:3px solid var(--bronze)}
+.lb-card.last-card{border-left:3px solid var(--text3);opacity:.85}
 .lb-row{display:flex;align-items:center;padding:12px 14px;gap:10px}
 .lb-pos{font-family:'Bebas Neue',sans-serif;font-size:22px;width:32px;text-align:center;flex-shrink:0;line-height:1}
 .pos-1{color:var(--gold)}.pos-2{color:var(--silver)}.pos-3{color:var(--bronze)}
-.lb-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
+.lb-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;flex-shrink:0}
 .lb-info{flex:1;min-width:0}
 .lb-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lb-detail{font-size:11px;color:var(--text2);margin-top:2px}
 .lb-pts{text-align:right;flex-shrink:0}
-.lb-pts-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:var(--gold)}
+.lb-pts-val{font-family:'Bebas Neue',sans-serif;font-size:26px;font-weight:500;color:var(--gold);line-height:1}
 .lb-pts-lbl{font-size:9px;color:var(--text2);text-transform:uppercase}
+.lb-progress{height:3px;background:var(--bg3);position:relative;overflow:hidden}
+.lb-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease;border-radius:0 2px 2px 0}
 .lb-detail-panel{display:none;padding:0 14px 12px;border-top:1px solid var(--border)}
 .lb-detail-panel.show{display:block}
 .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.detail-item{text-align:center}
-.detail-val{font-family:'DM Mono',monospace;font-size:15px;font-weight:500}
-.detail-lbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.detail-item{text-align:center;background:var(--bg3);border-radius:8px;padding:8px}
+.detail-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500}
+.detail-lbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 .multa-chip{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:11px;font-weight:600;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);color:var(--red)}
 .share-btn{width:100%;margin-top:10px;padding:10px;border:none;border-radius:8px;background:#25D366;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--tr)}
 .share-btn:hover{background:#1ea855}
+
+/* GRUPOS */
 .grupo-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
 .grupo-tab{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:var(--tr)}
 .grupo-tab.active{background:var(--gold);color:#000;border-color:var(--gold)}
@@ -87,31 +146,55 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .tabla-row:last-child{border-radius:0 0 8px 8px}
 .tabla-row:nth-child(even){background:var(--bg3)}
 .tabla-row span{font-family:'DM Mono',monospace;font-size:12px;text-align:center;color:var(--text2)}
-.tabla-row span:first-child{font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.tabla-row span:first-child{font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text);text-align:left;font-size:12px}
 .tabla-row span.pts{color:var(--gold);font-weight:600}
 .clasifica-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
 .cl-1{background:var(--green)}.cl-2{background:var(--green)}.cl-3{background:var(--blue)}.cl-4{background:var(--text3)}
 .leyenda{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
 .leyenda-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2)}
+
+/* APUESTAS */
 .pred-selector{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
 .pred-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:var(--tr)}
 .pred-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
 .pred-content{display:none}
 .pred-content.active{display:block}
 .pred-grupo-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--gold);margin:12px 0 6px;padding-left:4px}
-.pred-row{display:grid;grid-template-columns:80px 1fr;gap:6px;margin-bottom:4px;align-items:center}
+.pred-row{display:grid;grid-template-columns:80px 1fr auto;gap:6px;margin-bottom:4px;align-items:center}
 .pred-pos{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;text-align:right;padding-right:6px}
 .pred-equipo{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;font-weight:500}
 .pred-equipo.correcto{border-color:var(--green);background:rgba(46,204,113,.08);color:var(--green)}
 .pred-equipo.parcial{border-color:var(--gold2);background:rgba(245,200,66,.08);color:var(--gold)}
 .pred-equipo.incorrecto{color:var(--text2)}
-.pred-legend{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pred-pts{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:center;min-width:28px}
+.pred-pts.c3{color:var(--green)}.pred-pts.c2{color:var(--blue)}.pred-pts.c1{color:var(--gold)}.pred-pts.c0{color:var(--text3)}
+.pred-legend{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .pred-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2)}
 .pred-legend-dot{width:8px;height:8px;border-radius:2px}
+.pred-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.pred-sum-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.pred-sum-val{font-family:'DM Mono',monospace;font-size:18px;font-weight:600}
+.pred-sum-lbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* ESTADISTICAS */
+.stats-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px}
+.stats-section-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--gold);margin-bottom:12px}
+.stats-bar-row{margin-bottom:10px}
+.stats-bar-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.stats-bar-label span:first-child{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%}
+.stats-bar-label span:last-child{font-family:'DM Mono',monospace;color:var(--text2);font-size:11px}
+.stats-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.stats-bar-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.stats-chip-grid{display:flex;flex-wrap:wrap;gap:6px}
+.stats-chip{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:4px}
+.stats-chip .pct{font-family:'DM Mono',monospace;font-size:10px;color:var(--text2)}
+
+/* PARTIDOS */
 .match-group-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin:14px 0 6px}
 .match-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:6px}
 .match-card.played{border-left:3px solid var(--green)}
 .match-card.pending{border-left:3px solid var(--border)}
+.match-card.today{border-left:3px solid var(--gold);background:linear-gradient(135deg,var(--card),#1a1500)}
 .match-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .match-grp{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
 .match-date{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace}
@@ -127,8 +210,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .status-pill{padding:2px 8px;border-radius:20px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
 .status-played{background:rgba(46,204,113,.15);color:var(--green)}
 .status-pending{background:rgba(136,136,170,.1);color:var(--text2)}
+.status-today{background:rgba(245,200,66,.15);color:var(--gold)}
 .info-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:12px;font-size:11px;color:var(--text2);line-height:1.5}
 .info-box strong{color:var(--gold);display:block;margin-bottom:2px}
+.btn{width:100%;padding:11px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:var(--tr)}
+.btn-gold{background:var(--gold);color:#000}
+.btn-gold:hover{background:var(--gold2)}
+.btn-red{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3)}
+
 /* ADMIN */
 .admin-locked{text-align:center;padding:40px 20px}
 .admin-lock-icon{font-size:48px;margin-bottom:16px}
@@ -138,37 +227,32 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .form-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:block;font-weight:600}
 .form-input,.form-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;transition:var(--tr);appearance:none}
 .form-input:focus,.form-select:focus{border-color:var(--gold2)}
-.form-input[type=number]{font-family:'DM Mono',monospace}
-.btn{width:100%;padding:11px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:var(--tr)}
-.btn-gold{background:var(--gold);color:#000}
-.btn-gold:hover{background:var(--gold2)}
-.btn-red{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3)}
-.btn-sm{padding:8px 14px;font-size:12px;width:auto}
+.form-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 12px;outline:none;transition:var(--tr);resize:vertical;min-height:80px;line-height:1.5}
+.form-textarea:focus{border-color:var(--gold2)}
 .admin-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
-.admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--gold);margin-bottom:14px}
 .score-inputs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:12px}
 .score-big{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:28px;font-weight:500;padding:12px;text-align:center;width:100%;outline:none;transition:var(--tr)}
 .score-big:focus{border-color:var(--gold)}
 .score-vs{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text3);text-align:center}
+.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pago-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);gap:10px}
 .pago-row:last-child{border-bottom:none}
 .pago-info{flex:1;min-width:0}
 .pago-name{font-weight:600;font-size:14px}
-.pago-deuda{font-size:11px;color:var(--red);margin-top:3px;font-family:'DM Mono',monospace}
+.pago-deuda{font-size:11px;color:var(--text2);margin-top:3px;font-family:'DM Mono',monospace}
 .pago-saldo{font-size:11px;margin-top:2px}
-.pago-saldo.ok{color:var(--green)}
-.pago-saldo.pendiente{color:var(--gold2)}
+.pago-saldo.ok{color:var(--green)}.pago-saldo.pendiente{color:var(--gold2)}
 .pago-input-wrap{display:flex;gap:6px;align-items:center}
-.pago-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:8px 10px;width:110px;outline:none;text-align:right;transition:var(--tr)}
+.pago-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:8px 10px;width:100px;outline:none;text-align:right;transition:var(--tr)}
 .pago-input:focus{border-color:var(--gold)}
-.pago-btn{padding:8px 12px;border:none;border-radius:8px;background:var(--gold);color:#000;font-weight:600;font-size:12px;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.pago-btn{padding:8px 12px;border:none;border-radius:8px;background:var(--gold);color:#000;font-weight:600;font-size:12px;cursor:pointer;transition:var(--tr)}
 .pago-btn:hover{background:var(--gold2)}
-.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .deuda-breakdown{margin-top:6px}
-.deuda-fase{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid var(--border)}
-.deuda-fase:last-child{border-bottom:none;font-weight:600;color:var(--text);font-size:12px;margin-top:4px}
-.deuda-fase span:last-child{font-family:'DM Mono',monospace;color:var(--text2)}
-.deuda-fase.total span:last-child{color:var(--red)}
+.deuda-fase{display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid var(--border)}
+.deuda-fase:last-child{border-bottom:none;font-weight:600;font-size:12px;margin-top:4px}
+.deuda-fase span:last-child{font-family:'DM Mono',monospace}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
@@ -184,13 +268,26 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 </head>
 <body>
 
+<!-- WELCOME MODAL -->
+<div class="welcome-overlay" id="welcome-overlay">
+  <div class="welcome-box">
+    <div class="welcome-ball">&#9917;</div>
+    <div class="welcome-title">POLLA MUNDIAL</div>
+    <div class="welcome-sub">FIFA World Cup 2026</div>
+    <div class="welcome-admin-msg" id="welcome-admin-msg"></div>
+    <div class="welcome-next" id="welcome-next">
+      <div class="welcome-next-lbl">Proximo partido</div>
+      <div id="welcome-match-info"><div class="loading-text" style="color:var(--text2)">Cargando...</div></div>
+    </div>
+    <button class="welcome-btn" onclick="closeWelcome()">Entrar al juego</button>
+  </div>
+</div>
+
 <div class="header">
   <div class="header-top">
     <div class="logo">POLLA MUNDIAL<span>FIFA WORLD CUP 2026</span></div>
     <div class="header-right">
-      <button class="refresh-btn" id="refresh-btn" onclick="refreshAll()">
-        <span id="spin-icon">&#8635;</span> Actualizar
-      </button>
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshAll()"><span id="spin-icon">&#8635;</span> Actualizar</button>
       <button class="admin-btn" onclick="showAdminPage()">&#9881; Admin</button>
     </div>
   </div>
@@ -201,64 +298,63 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   <button class="nav-btn" onclick="showPage('leaderboard',this)">Ranking</button>
   <button class="nav-btn" onclick="showPage('grupos',this)">Grupos</button>
   <button class="nav-btn" onclick="showPage('apuestas',this)">Apuestas</button>
+  <button class="nav-btn" onclick="showPage('estadisticas',this)">Stats</button>
   <button class="nav-btn" onclick="showPage('partidos',this)">Partidos</button>
   <button class="nav-btn" id="nav-admin" style="display:none" onclick="showPage('admin',this)">Admin</button>
 </nav>
 
-<!-- INICIO -->
 <div id="page-inicio" class="page active">
-  <div id="inicio-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando datos...</div></div></div>
+  <div id="inicio-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div></div>
 </div>
-
-<!-- LEADERBOARD -->
 <div id="page-leaderboard" class="page">
   <div class="section-title">RANKING</div>
   <div class="section-sub">Fase de Grupos</div>
   <div class="live-row" id="lb-update"><div class="dot-live"></div><span>Conectando...</span></div>
-  <div id="lb-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando ranking...</div></div></div>
+  <div id="lb-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div></div>
 </div>
-
-<!-- GRUPOS -->
 <div id="page-grupos" class="page">
   <div class="section-title">GRUPOS</div>
   <div class="section-sub">Posiciones en tiempo real</div>
   <div id="grupo-tabs-container" class="grupo-tabs"></div>
-  <div id="grupos-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando grupos...</div></div></div>
+  <div id="grupos-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
 </div>
-
-<!-- APUESTAS -->
 <div id="page-apuestas" class="page">
   <div class="section-title">APUESTAS</div>
   <div class="section-sub">Predicciones de cada participante</div>
   <div id="pred-selector-container" class="pred-selector"></div>
-  <div id="pred-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando apuestas...</div></div></div>
+  <div id="pred-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
 </div>
-
-<!-- PARTIDOS -->
+<div id="page-estadisticas" class="page">
+  <div class="section-title">ESTADISTICAS</div>
+  <div class="section-sub">Analisis del grupo</div>
+  <div id="stats-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
+</div>
 <div id="page-partidos" class="page">
   <div class="section-title">PARTIDOS</div>
   <div class="section-sub">Fase de Grupos - 72 partidos</div>
-  <div id="cal-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando partidos...</div></div></div>
+  <div id="cal-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
 </div>
-
-<!-- ADMIN -->
 <div id="page-admin" class="page">
   <div id="admin-locked-view">
     <div class="admin-locked">
       <div class="admin-lock-icon">&#128274;</div>
       <div class="admin-lock-title">PANEL ADMIN</div>
       <div class="admin-lock-sub">Ingresa la contrasena para acceder</div>
-      <div class="form-group">
-        <input type="password" class="form-input" id="admin-pass" placeholder="Contrasena" style="text-align:center;font-size:18px;letter-spacing:4px">
-      </div>
+      <div class="form-group"><input type="password" class="form-input" id="admin-pass" placeholder="Contrasena" style="text-align:center;font-size:18px;letter-spacing:4px" onkeydown="if(event.key==='Enter')checkAdminPass()"></div>
       <button class="btn btn-gold" onclick="checkAdminPass()">Ingresar</button>
     </div>
   </div>
   <div id="admin-content" style="display:none">
     <div class="section-title">ADMIN</div>
     <div class="section-sub">Panel de administracion</div>
-
-    <!-- CARGAR RESULTADO -->
+    <div class="admin-section">
+      <div class="admin-section-title">&#128226; Mensaje para Participantes</div>
+      <div class="form-group">
+        <label class="form-label">Mensaje (se muestra al abrir la app)</label>
+        <textarea class="form-textarea" id="admin-msg-input" placeholder="Escribe un aviso para el grupo... (dejar vacio para no mostrar)"></textarea>
+      </div>
+      <button class="btn btn-gold" onclick="guardarMensaje()">Publicar Mensaje</button>
+    </div>
     <div class="admin-section">
       <div class="admin-section-title">&#9917; Cargar Resultado</div>
       <div class="form-group">
@@ -281,46 +377,25 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
         <button class="btn btn-gold" onclick="guardarResultado()">Guardar Resultado</button>
       </div>
     </div>
-
-    <!-- PAGOS -->
     <div class="admin-section">
       <div class="admin-section-title">&#128176; Control de Pagos</div>
-      <div class="info-box" style="margin-bottom:12px">
-        <strong>Como funciona</strong>
-        Ingresa el monto del NUEVO PAGO. Los pagos se acumulan automaticamente sobre el saldo anterior.
-      </div>
+      <div class="info-box" style="margin-bottom:12px"><strong>Como funciona</strong>Ingresa el monto del NUEVO PAGO. Los pagos se acumulan automaticamente.</div>
       <div id="pagos-content"><div class="loading-text" style="color:var(--text2);font-size:13px">Cargando...</div></div>
     </div>
-
-    <!-- CONFIGURACION -->
     <div class="admin-section">
       <div class="admin-section-title">&#9881; Configuracion</div>
       <div class="config-grid">
-        <div class="form-group">
-          <label class="form-label">Pts posicion exacta</label>
-          <input type="number" class="form-input" id="cfg-exacta" value="2">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pts por clasificar</label>
-          <input type="number" class="form-input" id="cfg-clasifica" value="1">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Multa grupos (Gs.)</label>
-          <input type="number" class="form-input" id="cfg-multa" value="2500">
-        </div>
-        <div class="form-group">
-          <label class="form-label">% Fondo almuerzo</label>
-          <input type="number" class="form-input" id="cfg-almuerzo" value="20">
-        </div>
+        <div class="form-group"><label class="form-label">Pts posicion exacta</label><input type="number" class="form-input" id="cfg-exacta" value="2"></div>
+        <div class="form-group"><label class="form-label">Pts por clasificar</label><input type="number" class="form-input" id="cfg-clasifica" value="1"></div>
+        <div class="form-group"><label class="form-label">Multa grupos (Gs.)</label><input type="number" class="form-input" id="cfg-multa" value="2500"></div>
+        <div class="form-group"><label class="form-label">% Fondo almuerzo</label><input type="number" class="form-input" id="cfg-almuerzo" value="20"></div>
       </div>
       <button class="btn btn-gold" onclick="guardarConfig()">Guardar Configuracion</button>
     </div>
-
     <button class="btn btn-red" onclick="cerrarAdmin()" style="margin-top:4px">Cerrar sesion admin</button>
   </div>
 </div>
 
-<!-- MODAL DEUDA DETALLE -->
 <div class="modal-overlay" id="deuda-modal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -334,47 +409,146 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbye7Slj-v4nuxc0kKuyYvN4eSstN7XYTBgED8PiqOWGOkD3k7eTjQTUnO8Wfkql6APD/exec';
+const APP_PASS = 'MUNDIAL2026'; // Contraseña general del grupo
 const ADMIN_PASS = '2026';
 const AVATARS = ['#e74c3c','#3498db','#2ecc71','#9b59b6','#f39c12','#1abc9c','#e67e22','#e91e63','#00bcd4','#8bc34a'];
 const GRUPOS = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-const FASES = [
-  {label:'Inscripcion', col:1},
-  {label:'Multa Grupos', col:3},
-  {label:'Multa 16avos', col:5},
-  {label:'Multa 8vos', col:7},
-  {label:'Multa 4tos', col:9},
-  {label:'Multa Semifinal', col:11},
-  {label:'Multa 3er Puesto', col:13},
-  {label:'Multa Final', col:15},
-];
-
 let cache = {};
 let lastUpdate = null;
 let adminUnlocked = false;
-let calData = null;
-let finData = null;
+let countdownInterval = null;
+let adminMsg = localStorage.getItem('adminMsg') || '';
 
 async function get(action) {
   const r = await fetch(`${API}?action=${action}`);
-  if (!r.ok) throw new Error('Error de red');
+  if (!r.ok) throw new Error('Error');
   const data = await r.json();
   cache[action] = data;
   return data;
 }
 
 async function post(payload) {
-  const r = await fetch(API, {
-    method: 'POST',
-    body: JSON.stringify({...payload, token: ADMIN_PASS})
-  });
+  const r = await fetch(API, {method:'POST', body:JSON.stringify({...payload, token:ADMIN_PASS})});
   if (!r.ok) throw new Error('Error de red');
   return await r.json();
 }
 
 function fmtGs(n) { return 'Gs. ' + Number(n||0).toLocaleString('es-PY'); }
 function fmtTime(d) { return d ? d.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'}) : '--'; }
-function errHTML(fn) {
-  return `<div class="error-state"><div class="error-text">No se pudieron cargar los datos.</div><button class="btn btn-gold" onclick="${fn}()">Reintentar</button></div>`;
+function errHTML(fn) { return `<div class="error-state"><div class="error-text">No se pudieron cargar los datos.</div><button class="btn btn-gold" onclick="${fn}()">Reintentar</button></div>`; }
+
+// Convierte fecha y hora de Google Sheets a objeto Date y textos legibles
+// Google Sheets puede enviar: "11-jun", "2026-06-11T03:00:00.000Z", "15:00", "2026-01-01T18:00:00.000Z"
+function parseFechaHora(fecha, hora) {
+  const MESES = {ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12,
+                 jan:1,apr:4,aug:8,oct:10,dec:12};
+  let day=0, month=0, hh=0, mm=0;
+
+  // Parsear fecha
+  const fechaStr = String(fecha||'');
+  if (fechaStr.includes('T')) {
+    // ISO: 2026-06-11T03:00:00.000Z
+    const d = new Date(fechaStr);
+    day = d.getUTCDate(); month = d.getUTCMonth()+1;
+  } else if (fechaStr.includes('-')) {
+    // Formato "11-jun" o "11-06"
+    const parts = fechaStr.split('-');
+    day = parseInt(parts[0]);
+    const monStr = parts[1].toLowerCase().substring(0,3);
+    month = MESES[monStr] || parseInt(parts[1]) || 6;
+  }
+
+  // Parsear hora
+  const horaStr = String(hora||'');
+  if (horaStr.includes('T')) {
+    // ISO timestamp para la hora: 1899-12-30T18:50:40.000Z (Google Sheets time serial en UTC)
+    // Paraguay es UTC-4, pero Google Sheets ya suma el offset local al serializar
+    // Usamos getUTCHours y restamos 4 para convertir a hora Paraguay
+    const t = new Date(horaStr);
+    hh = t.getUTCHours() - 4;
+    if (hh < 0) hh += 24;
+    mm = t.getUTCMinutes();
+  } else if (horaStr.includes(':')) {
+    // Formato "15:00" — ya viene en hora Paraguay
+    const parts = horaStr.split(':');
+    hh = parseInt(parts[0]); mm = parseInt(parts[1])||0;
+  }
+
+  const MESES_NOMBRES = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const fechaLegible = `${day} ${MESES_NOMBRES[month]||''}`;
+  const horaLegible = `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+  const target = new Date(2026, month-1, day, hh, mm, 0);
+
+  return { fechaLegible, horaLegible, target };
+}
+
+// ── WELCOME ───────────────────────────────────────────────────────────────────
+async function initWelcome() {
+  // Admin message
+  if (adminMsg) {
+    const msgEl = document.getElementById('welcome-admin-msg');
+    msgEl.textContent = adminMsg;
+    msgEl.classList.add('show');
+  }
+  // Next match countdown
+  try {
+    const calRaw = await get('calendario');
+    const cal = calRaw.slice(1);
+    cache.calendario = calRaw;
+    const nextMatch = cal.find(p => p[8] !== 'Finalizado' && p[4] && p[7]);
+    if (nextMatch) {
+      renderWelcomeMatch(nextMatch);
+    } else {
+      document.getElementById('welcome-match-info').innerHTML = '<div style="font-size:13px;color:var(--text2)">Todos los partidos finalizados</div>';
+    }
+  } catch(e) {
+    document.getElementById('welcome-match-info').innerHTML = '<div style="font-size:12px;color:var(--text3)">No se pudo cargar el proximo partido</div>';
+  }
+}
+
+function renderWelcomeMatch(p) {
+  const el = document.getElementById('welcome-match-info');
+  const {fechaLegible, horaLegible, target} = parseFechaHora(p[2], p[3]);
+  el.innerHTML = `
+    <div class="welcome-match">
+      <div class="welcome-team home">${p[4]}</div>
+      <div class="welcome-vs">VS</div>
+      <div class="welcome-team away">${p[7]}</div>
+    </div>
+    <div class="welcome-date">Grupo ${p[1]} - ${fechaLegible} - ${horaLegible}</div>
+    <div class="countdown" id="cd-welcome">
+      <div class="cd-item"><div class="cd-val" id="cd-d">--</div><div class="cd-lbl">Dias</div></div>
+      <div class="cd-item"><div class="cd-val" id="cd-h">--</div><div class="cd-lbl">Horas</div></div>
+      <div class="cd-item"><div class="cd-val" id="cd-m">--</div><div class="cd-lbl">Min</div></div>
+      <div class="cd-item"><div class="cd-val" id="cd-s">--</div><div class="cd-lbl">Seg</div></div>
+    </div>`;
+  startCountdown(target, 'cd-d','cd-h','cd-m','cd-s');
+}
+
+function startCountdown(target, dId, hId, mId, sId) {
+  if (countdownInterval) clearInterval(countdownInterval);
+  function update() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      [dId,hId,mId,sId].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='00';});
+      return;
+    }
+    const days = Math.floor(diff/86400000);
+    const hours = Math.floor((diff%86400000)/3600000);
+    const mins = Math.floor((diff%3600000)/60000);
+    const secs = Math.floor((diff%60000)/1000);
+    const fmt = n => String(n).padStart(2,'0');
+    const set = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=fmt(val); };
+    set(dId,days); set(hId,hours); set(mId,mins); set(sId,secs);
+  }
+  update();
+  countdownInterval = setInterval(update, 1000);
+}
+
+function closeWelcome() {
+  document.getElementById('welcome-overlay').classList.add('hide');
+  renderInicio();
 }
 
 // ── INICIO ────────────────────────────────────────────────────────────────────
@@ -382,17 +556,46 @@ async function renderInicio() {
   const el = document.getElementById('inicio-content');
   el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div>';
   try {
-    const [lbRaw, calRaw] = await Promise.all([get('leaderboard'), get('calendario')]);
+    const [lbRaw, calRaw] = await Promise.all([get('leaderboard'), cache.calendario ? Promise.resolve(cache.calendario) : get('calendario')]);
     const lb = lbRaw.slice(1);
-    const cal = calRaw.slice(1);
-    calData = cal;
+    const cal = (cache.calendario||calRaw).slice(1);
     lastUpdate = new Date();
     const jugados = cal.filter(p=>p[8]==='Finalizado').length;
     const totalMultas = lb.reduce((s,r)=>s+(Number(r[2])||0),0);
-    const pozo = lb.length*10000 + totalMultas;
+    const pozo = lb.length * 10000 + totalMultas;
+    const nextMatch = cal.find(p=>p[8]!=='Finalizado'&&p[4]&&p[7]);
     const top3 = lb.slice(0,3);
     const medals = ['1°','2°','3°'];
-    el.innerHTML = `
+    const medalColors = ['var(--gold)','var(--silver)','var(--bronze)'];
+
+    let html = '';
+
+    // Admin message banner
+    if (adminMsg) {
+      html += `<div class="admin-msg-banner show"><strong>Aviso del organizador</strong>${adminMsg}</div>`;
+    }
+
+    // Countdown banner
+    if (nextMatch) {
+      const {fechaLegible, horaLegible, target: nextTarget} = parseFechaHora(nextMatch[2], nextMatch[3]);
+      html += `<div class="cd-banner">
+        <div class="cd-banner-lbl">Proximo partido - Grupo ${nextMatch[1]}</div>
+        <div class="cd-banner-match">
+          <div class="cd-banner-team h">${nextMatch[4]}</div>
+          <div class="cd-banner-vs">VS</div>
+          <div class="cd-banner-team a">${nextMatch[7]}</div>
+        </div>
+        <div style="font-size:10px;color:var(--text2);text-align:center;margin-bottom:8px">${fechaLegible} - ${horaLegible}</div>
+        <div class="cd-inline">
+          <div class="cd-chip"><div class="cd-chip-val" id="icd-d">--</div><div class="cd-chip-lbl">Dias</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="icd-h">--</div><div class="cd-chip-lbl">Horas</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="icd-m">--</div><div class="cd-chip-lbl">Min</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="icd-s">--</div><div class="cd-chip-lbl">Seg</div></div>
+        </div>
+      </div>`;
+    }
+
+    html += `
       <div class="section-title">RESUMEN</div>
       <div class="section-sub">Mundial 2026 - Fase de Grupos</div>
       <div class="live-row"><div class="dot-live"></div><span>En vivo - ${fmtTime(lastUpdate)}</span></div>
@@ -414,15 +617,21 @@ async function renderInicio() {
       <div class="section-title" style="font-size:17px;margin-bottom:8px">TOP 3</div>
       ${top3.map((p,i)=>{
         const c=AVATARS[i];
-        return `<div class="lb-card">
+        return `<div class="lb-card pos-${i+1}-card">
           <div class="lb-row">
-            <div class="lb-pos" style="font-size:14px;color:${i===0?'var(--gold)':i===1?'var(--silver)':'var(--bronze)'}">${medals[i]}</div>
+            <div class="lb-pos" style="color:${medalColors[i]}">${medals[i]}</div>
             <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44">${(p[1]||'?').charAt(0)}</div>
             <div class="lb-info"><div class="lb-name">${p[1]||'--'}</div><div class="lb-detail">${p[5]||0} exactos - Multa: ${fmtGs(p[2]||0)}</div></div>
             <div class="lb-pts"><div class="lb-pts-val">${p[4]||0}</div><div class="lb-pts-lbl">pts</div></div>
           </div>
         </div>`;
       }).join('')}`;
+
+    el.innerHTML = html;
+    if (nextMatch) {
+      const {target: t} = parseFechaHora(nextMatch[2], nextMatch[3]);
+      startCountdown(t, 'icd-d','icd-h','icd-m','icd-s');
+    }
   } catch(e) { el.innerHTML = errHTML('renderInicio'); }
 }
 
@@ -430,24 +639,31 @@ async function renderInicio() {
 async function renderLeaderboard() {
   const el = document.getElementById('lb-content');
   const upEl = document.getElementById('lb-update');
-  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando ranking...</div></div>';
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
   try {
     const lbRaw = cache.leaderboard || await get('leaderboard');
     const lb = lbRaw.slice(1);
     lastUpdate = new Date();
     upEl.innerHTML = `<div class="dot-live"></div><span>Actualizado ${fmtTime(lastUpdate)}</span>`;
+    const maxPts = Math.max(...lb.map(p=>Number(p[4])||0), 1);
     el.innerHTML = lb.map((p,i)=>{
-      const pos=p[0], isLast=String(pos).includes('Ultimo')||String(pos).includes('ULTIMO')||String(pos).includes('\uD83E\uDD44');
+      const pos=p[0], isLast=String(pos).includes('ULTIMO')||String(pos).includes('Ultimo')||String(pos).includes('\uD83E\uDD44');
       const posClass=pos===1?'pos-1':pos===2?'pos-2':pos===3?'pos-3':'';
+      const cardClass=pos===1?'pos-1-card':pos===2?'pos-2-card':pos===3?'pos-3-card':isLast?'last-card':'';
       const c=AVATARS[i%AVATARS.length];
       const nombre=String(p[1]||''), multa=Number(p[2])||0, errados=Number(p[3])||0, pts=Number(p[4])||0, exactos=Number(p[5])||0;
-      return `<div class="lb-card" onclick="toggleDetail(this)">
+      const pct = Math.round((pts/maxPts)*100);
+      return `<div class="lb-card ${cardClass}" onclick="toggleDetail(this)">
         <div class="lb-row">
-          <div class="lb-pos ${posClass}" style="${isLast?'font-size:18px':''}">${isLast?'Ult':pos}</div>
+          <div class="lb-pos ${posClass}" style="${isLast?'font-size:16px':''}">${isLast?'ULT':pos}</div>
           <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44">${nombre.charAt(0)}</div>
-          <div class="lb-info"><div class="lb-name">${nombre}</div><div class="lb-detail">${exactos} exactos - ${errados} errados</div></div>
+          <div class="lb-info">
+            <div class="lb-name">${nombre}</div>
+            <div class="lb-detail">${exactos} exactos - ${errados} errados</div>
+          </div>
           <div class="lb-pts"><div class="lb-pts-val">${pts}</div><div class="lb-pts-lbl">pts</div></div>
         </div>
+        <div class="lb-progress"><div class="lb-progress-bar" style="width:${pct}%;background:${pos===1?'linear-gradient(90deg,var(--gold),var(--gold2))':pos===2?'linear-gradient(90deg,var(--silver),#8899aa)':pos===3?'linear-gradient(90deg,var(--bronze),#a06030)':'linear-gradient(90deg,var(--blue),#2266cc)'}"></div></div>
         <div class="lb-detail-panel">
           <div class="detail-grid">
             <div class="detail-item"><div class="detail-val c-gold">${pts}</div><div class="detail-lbl">Total pts</div></div>
@@ -466,39 +682,33 @@ async function shareRanking() {
   try {
     const lbRaw = cache.leaderboard || await get('leaderboard');
     const lb = lbRaw.slice(1);
-    const hora = fmtTime(new Date());
     let txt = 'POLLA MUNDIAL 2026\n';
-    txt += 'Ranking Fase de Grupos\n';
-    txt += hora + '\n';
+    txt += 'Ranking Fase de Grupos - ' + fmtTime(new Date()) + '\n';
     txt += '--------------------------------\n\n';
     lb.forEach((p,i) => {
-      const pos = p[0];
-      const isLast = String(pos).includes('ULTIMO') || String(pos).includes('Ultimo');
+      const pos=p[0], isLast=String(pos).includes('ULTIMO')||String(pos).includes('Ultimo');
       const posLabel = isLast ? 'ULTIMO' : `${pos}.`;
       txt += `${posLabel} ${p[1]} - ${p[4]} pts\n`;
-      txt += `  Exactos: ${p[5]}  Errados: ${p[3]}\n`;
-      txt += `  Multa: ${fmtGs(p[2])}\n\n`;
+      txt += `   Exactos: ${p[5]}  Errados: ${p[3]}  Multa: ${fmtGs(p[2])}\n\n`;
     });
-    txt += '--------------------------------\n';
-    txt += 'Actualizado en tiempo real';
-    const url = `https://wa.me/?text=${encodeURIComponent(txt)}`;
-    window.open(url, '_blank');
-  } catch(e) { showToast('Error al compartir', 'error'); }
+    txt += '--------------------------------\nActualizado en tiempo real';
+    window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+  } catch(e) { showToast('Error al compartir','error'); }
 }
 
 // ── GRUPOS ────────────────────────────────────────────────────────────────────
 async function renderGrupos() {
   const tabsEl = document.getElementById('grupo-tabs-container');
   const el = document.getElementById('grupos-content');
-  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando grupos...</div></div>';
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
   try {
     const raw = cache.grupos || await get('grupos');
     const data = raw.slice(1);
     const byGrupo = {};
-    GRUPOS.forEach(g => byGrupo[g]=[]);
-    data.forEach(row => { if(row[0] && byGrupo[row[0]]) byGrupo[row[0]].push(row); });
-    GRUPOS.forEach(g => { byGrupo[g].sort((a,b)=>(Number(b[9])||0)-(Number(a[9])||0)||(Number(b[8])||0)-(Number(a[8])||0)); });
-    tabsEl.innerHTML = GRUPOS.map((g,i)=>`<div class="grupo-tab ${i===0?'active':''}" onclick="switchGrupo('${g}',this)">Grupo ${g}</div>`).join('');
+    GRUPOS.forEach(g=>byGrupo[g]=[]);
+    data.forEach(row=>{if(row[0]&&byGrupo[row[0]])byGrupo[row[0]].push(row);});
+    GRUPOS.forEach(g=>{byGrupo[g].sort((a,b)=>(Number(b[9])||0)-(Number(a[9])||0)||(Number(b[8])||0)-(Number(a[8])||0));});
+    tabsEl.innerHTML = GRUPOS.map((g,i)=>`<div class="grupo-tab ${i===0?'active':''}" onclick="switchGrupo('${g}',this)">Gr.${g}</div>`).join('');
     el.innerHTML = GRUPOS.map((g,i)=>{
       const equipos=byGrupo[g];
       const rows=equipos.map((eq,pos)=>{
@@ -514,7 +724,7 @@ async function renderGrupos() {
         <div class="tabla-header"><span>Seleccion</span><span>PJ</span><span>PG</span><span>PE</span><span>PP</span><span>GF</span><span>GC</span><span>DG</span><span>PTS</span></div>
         ${rows}
         <div class="leyenda">
-          <div class="leyenda-item"><span class="clasifica-dot cl-1"></span>Clasifica (1/2)</div>
+          <div class="leyenda-item"><span class="clasifica-dot cl-1"></span>Clasifica</div>
           <div class="leyenda-item"><span class="clasifica-dot cl-3"></span>Posible 3ro</div>
           <div class="leyenda-item"><span class="clasifica-dot cl-4"></span>Eliminado</div>
         </div>
@@ -534,51 +744,63 @@ function switchGrupo(g,btn) {
 async function renderApuestas() {
   const selEl = document.getElementById('pred-selector-container');
   const el = document.getElementById('pred-content');
-  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando apuestas...</div></div>';
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
   try {
-    const [predsRaw, lista32Raw] = await Promise.all([get('predicciones'), get('lista32')]);
+    const [predsRaw, lista32Raw, lbRaw] = await Promise.all([get('predicciones'), get('lista32'), cache.leaderboard?Promise.resolve(cache.leaderboard):get('leaderboard')]);
     const preds = predsRaw.slice(1).filter(r=>r[2]);
     const lista32 = lista32Raw.slice(1);
+    const lb = lbRaw.slice(1);
     const clasificados = new Set();
-    lista32.forEach((row,i) => { if(row[1] && i<32) clasificados.add(String(row[1])); });
+    lista32.forEach((row,i)=>{if(row[1]&&i<32)clasificados.add(String(row[1]));});
     const real1 = lista32.slice(0,12).map(r=>String(r[1]||''));
     const real2 = lista32.slice(12,24).map(r=>String(r[1]||''));
     const realM3 = lista32.slice(24,32).map(r=>String(r[1]||''));
     const posLabels = ['1 Puesto','2 Puesto','3 Puesto','Eliminado'];
-    selEl.innerHTML = preds.map((p,i)=>`<div class="pred-btn ${i===0?'active':''}" onclick="switchPred(${i},this)">${(String(p[2]||'?')).split(' ')[0]}</div>`).join('');
+
+    selEl.innerHTML = preds.map((p,i)=>`<div class="pred-btn ${i===0?'active':''}" onclick="switchPred(${i},this)">${String(p[2]||'?').split(' ')[0]}</div>`).join('');
+
     el.innerHTML = preds.map((p,pi)=>{
       const nombre=String(p[2]||''), c=AVATARS[pi%AVATARS.length];
-      const getClass=(pred,posIdx)=>{
-        if(!pred) return 'incorrecto';
-        const s=String(pred);
-        if(posIdx===0 && s===real1[Math.floor(posIdx)] ) return 'correcto';
-        if(posIdx===1 && s===real2[Math.floor(posIdx)]) return 'correcto';
-        if(posIdx===2 && realM3.includes(s)) return 'correcto';
-        if(clasificados.has(s)) return 'parcial';
-        return 'incorrecto';
-      };
+      const lbEntry = lb.find(r=>String(r[1]).trim()===nombre.trim());
+      const totalPts = lbEntry ? Number(lbEntry[4])||0 : 0;
+      const exactos = lbEntry ? Number(lbEntry[5])||0 : 0;
+      const errados = lbEntry ? Number(lbEntry[3])||0 : 0;
       let html=`<div class="pred-content ${pi===0?'active':''}" id="pred-${pi}">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px;background:var(--bg3);border-radius:10px;border:1px solid var(--border)">
-          <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600">${nombre.charAt(0)}</div>
-          <div><div style="font-weight:600;font-size:14px">${nombre}</div><div style="font-size:11px;color:var(--text2)">Predicciones Fase de Grupos</div></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:12px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)">
+          <div style="width:42px;height:42px;border-radius:50%;background:${c}22;color:${c};border:2px solid ${c}44;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">${nombre.charAt(0)}</div>
+          <div style="flex:1"><div style="font-weight:600;font-size:15px">${nombre}</div><div style="font-size:11px;color:var(--text2)">Predicciones Fase de Grupos</div></div>
+        </div>
+        <div class="pred-summary">
+          <div class="pred-sum-item"><div class="pred-sum-val c-gold">${totalPts}</div><div class="pred-sum-lbl">Puntos</div></div>
+          <div class="pred-sum-item"><div class="pred-sum-val c-green">${exactos}</div><div class="pred-sum-lbl">Exactos</div></div>
+          <div class="pred-sum-item"><div class="pred-sum-val c-red">${errados}</div><div class="pred-sum-lbl">Errados</div></div>
         </div>
         <div class="pred-legend">
-          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--green)"></div>Exacto + clasifica (3 pts)</div>
-          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--gold)"></div>Clasifica (1 pt)</div>
-          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--border)"></div>Error (0 pts)</div>
+          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--green)"></div>Exacto+clasifica (3pts)</div>
+          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--blue)"></div>Exacto sin clasificar (2pts)</div>
+          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--gold)"></div>Clasifica (1pt)</div>
+          <div class="pred-legend-item"><div class="pred-legend-dot" style="background:var(--border)"></div>Error (0pts)</div>
         </div>`;
+
       GRUPOS.forEach((g,gi)=>{
         const base=3+gi*4;
         const preds4=[p[base],p[base+1],p[base+2],p[base+3]];
         html+=`<div class="pred-grupo-title">Grupo ${g}</div>`;
         preds4.forEach((pred,idx)=>{
           const s=String(pred||'');
-          let cls='incorrecto';
-          if(idx===0 && s===real1[gi] && clasificados.has(s)) cls='correcto';
-          else if(idx===1 && s===real2[gi] && clasificados.has(s)) cls='correcto';
-          else if(idx===2 && realM3.includes(s)) cls='correcto';
-          else if(idx<3 && clasificados.has(s)) cls='parcial';
-          html+=`<div class="pred-row"><div class="pred-pos">${posLabels[idx]}</div><div class="pred-equipo ${cls}">${s||'--'}</div></div>`;
+          let cls='incorrecto', pts=0, ptsClass='c0';
+          if(idx===0&&s===real1[gi]&&clasificados.has(s)){cls='correcto';pts=3;ptsClass='c3';}
+          else if(idx===1&&s===real2[gi]&&clasificados.has(s)){cls='correcto';pts=3;ptsClass='c3';}
+          else if(idx===2&&realM3.includes(s)){cls='correcto';pts=3;ptsClass='c3';}
+          else if(idx===2&&!clasificados.has(s)&&s){cls='parcial';pts=2;ptsClass='c2';}
+          else if(idx===3&&s){pts=2;ptsClass='c2';}
+          else if(idx<3&&clasificados.has(s)){cls='parcial';pts=1;ptsClass='c1';}
+          const ptsLabel = pts>0?`+${pts}`:'·';
+          html+=`<div class="pred-row">
+            <div class="pred-pos">${posLabels[idx]}</div>
+            <div class="pred-equipo ${cls}">${s||'--'}</div>
+            <div class="pred-pts ${ptsClass}">${ptsLabel}</div>
+          </div>`;
         });
       });
       html+=`</div>`;
@@ -594,15 +816,99 @@ function switchPred(idx,btn) {
   document.getElementById(`pred-${idx}`).classList.add('active');
 }
 
+// ── ESTADISTICAS ──────────────────────────────────────────────────────────────
+async function renderEstadisticas() {
+  const el = document.getElementById('stats-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
+  try {
+    const [predsRaw, lista32Raw] = await Promise.all([get('predicciones'), get('lista32')]);
+    const preds = predsRaw.slice(1).filter(r=>r[2]);
+    const lista32 = lista32Raw.slice(1);
+    const clasificados = new Set();
+    lista32.forEach((row,i)=>{if(row[1]&&i<32)clasificados.add(String(row[1]));});
+    const total = preds.length;
+
+    // Count predictions per team per position
+    const counts1 = {}, counts2 = {}, counts3 = {};
+    const allPreds = {};
+    preds.forEach(p => {
+      GRUPOS.forEach((g,gi) => {
+        const base = 3+gi*4;
+        const p1=String(p[base]||''), p2=String(p[base+1]||''), p3=String(p[base+2]||'');
+        if(p1){counts1[p1]=(counts1[p1]||0)+1; allPreds[p1]=(allPreds[p1]||0)+1;}
+        if(p2){counts2[p2]=(counts2[p2]||0)+1; allPreds[p2]=(allPreds[p2]||0)+1;}
+        if(p3){counts3[p3]=(counts3[p3]||0)+1; allPreds[p3]=(allPreds[p3]||0)+1;}
+      });
+    });
+
+    // Top 5 most picked as 1st
+    const top1 = Object.entries(counts1).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    // Top 5 most picked as best 3rd
+    const top3 = Object.entries(counts3).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    // Most popular overall
+    const topAll = Object.entries(allPreds).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    // Least popular (picked 0 or 1 times)
+    const leastPicked = Object.entries(allPreds).sort((a,b)=>a[1]-b[1]).slice(0,5);
+
+    const barColor = (eq) => clasificados.has(eq) ? 'var(--green)' : 'var(--red)';
+    const maxCount = total || 1;
+
+    const renderBars = (items) => items.map(([eq,cnt])=>`
+      <div class="stats-bar-row">
+        <div class="stats-bar-label">
+          <span style="color:${clasificados.has(eq)?'var(--text)':'var(--text2)'}">${eq}</span>
+          <span>${cnt}/${total} (${Math.round(cnt/total*100)}%)</span>
+        </div>
+        <div class="stats-bar"><div class="stats-bar-fill" style="width:${Math.round(cnt/maxCount*100)}%;background:${barColor(eq)}"></div></div>
+      </div>`).join('');
+
+    el.innerHTML = `
+      <div class="stats-section">
+        <div class="stats-section-title">Favoritos para 1° de Grupo</div>
+        ${renderBars(top1)}
+        <div style="font-size:10px;color:var(--text3);margin-top:8px">Verde = clasifico en realidad</div>
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">Mas elegidos como Mejor 3°</div>
+        ${renderBars(top3)}
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">Selecciones mas populares (general)</div>
+        <div class="stats-chip-grid">
+          ${topAll.map(([eq,cnt])=>`<div class="stats-chip" style="border-color:${clasificados.has(eq)?'rgba(46,204,113,.3)':'var(--border)'}">
+            ${eq} <span class="pct">${Math.round(cnt/total*100)}%</span>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">Selecciones menos apostadas</div>
+        <div class="stats-chip-grid">
+          ${leastPicked.map(([eq,cnt])=>`<div class="stats-chip">
+            ${eq} <span class="pct">${cnt}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="stats-section">
+        <div class="stats-section-title">Resumen del grupo</div>
+        <div class="stat-grid" style="margin-bottom:0">
+          <div class="stat-card"><div class="stat-card-val c-blue">${total}</div><div class="stat-card-lbl">Participantes</div></div>
+          <div class="stat-card"><div class="stat-card-val c-gold">${total*48}</div><div class="stat-card-lbl">Predicciones totales</div></div>
+          <div class="stat-card"><div class="stat-card-val c-green">${Object.keys(allPreds).length}</div><div class="stat-card-lbl">Equipos apostados</div></div>
+          <div class="stat-card"><div class="stat-card-val c-purple">${top1[0]?top1[0][0].split(' ')[0]:'--'}</div><div class="stat-card-lbl">Favorito grupal</div></div>
+        </div>
+      </div>`;
+  } catch(e) { el.innerHTML = errHTML('renderEstadisticas'); }
+}
+
 // ── PARTIDOS ──────────────────────────────────────────────────────────────────
 async function renderPartidos() {
   const el = document.getElementById('cal-content');
-  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando partidos...</div></div>';
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
   try {
     const raw = cache.calendario || await get('calendario');
     const cal = raw.slice(1);
-    calData = cal;
     const jugados = cal.filter(p=>p[8]==='Finalizado').length;
+    const nextMatch = cal.find(p=>p[8]!=='Finalizado'&&p[4]&&p[7]);
     const grupos = [...new Set(cal.map(p=>p[1]))].filter(Boolean);
     let html=`<div class="info-box"><strong>${jugados}/72 partidos jugados</strong>Horarios en hora de Paraguay (UTC-4)</div>`;
     grupos.forEach(g=>{
@@ -610,8 +916,13 @@ async function renderPartidos() {
       html+=`<div class="match-group-title">Grupo ${g}</div>`;
       ps.forEach(p=>{
         const ok=p[8]==='Finalizado', gL=p[5], gV=p[6];
-        html+=`<div class="match-card ${ok?'played':'pending'}">
-          <div class="match-header"><div class="match-grp">Grupo ${g}</div><div class="match-date">${p[2]} - ${p[3]}</div></div>
+        const isNext = nextMatch && p[4]===nextMatch[4]&&p[7]===nextMatch[7]&&p[2]===nextMatch[2];
+        const {fechaLegible, horaLegible} = parseFechaHora(p[2], p[3]);
+        html+=`<div class="match-card ${ok?'played':isNext?'today':'pending'}">
+          <div class="match-header">
+            <div class="match-grp">Grupo ${g}</div>
+            <div class="match-date">${fechaLegible} - ${horaLegible}</div>
+          </div>
           <div class="match-teams">
             <div class="team-name team-home">${p[4]}</div>
             <div class="score-box">
@@ -621,7 +932,7 @@ async function renderPartidos() {
             </div>
             <div class="team-name team-away">${p[7]}</div>
           </div>
-          <div class="match-status"><div class="status-pill ${ok?'status-played':'status-pending'}">${ok?'Finalizado':'Pendiente'}</div></div>
+          <div class="match-status"><div class="status-pill ${ok?'status-played':isNext?'status-today':'status-pending'}">${ok?'Finalizado':isNext?'Proximo':'Pendiente'}</div></div>
         </div>`;
       });
     });
@@ -630,93 +941,85 @@ async function renderPartidos() {
 }
 
 // ── ADMIN ─────────────────────────────────────────────────────────────────────
-function showAdminPage() {
-  showPage('admin', document.getElementById('nav-admin'));
-}
+function showAdminPage() { showPage('admin', document.getElementById('nav-admin')); }
 
 function checkAdminPass() {
   const pass = document.getElementById('admin-pass').value;
-  if(pass === ADMIN_PASS) {
-    adminUnlocked = true;
-    document.getElementById('admin-locked-view').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'block';
-    document.getElementById('nav-admin').style.display = 'block';
+  if(pass===ADMIN_PASS){
+    adminUnlocked=true;
+    document.getElementById('admin-locked-view').style.display='none';
+    document.getElementById('admin-content').style.display='block';
+    document.getElementById('nav-admin').style.display='block';
+    document.getElementById('admin-msg-input').value = adminMsg;
     loadAdminData();
-    showToast('Acceso concedido', 'success');
-  } else {
-    showToast('Contrasena incorrecta', 'error');
-    document.getElementById('admin-pass').value = '';
-  }
+    showToast('Acceso concedido','success');
+  } else { showToast('Contrasena incorrecta','error'); document.getElementById('admin-pass').value=''; }
 }
 
 function cerrarAdmin() {
-  adminUnlocked = false;
-  document.getElementById('admin-locked-view').style.display = 'block';
-  document.getElementById('admin-content').style.display = 'none';
-  document.getElementById('nav-admin').style.display = 'none';
-  document.getElementById('admin-pass').value = '';
-  showPage('inicio', document.querySelector('.nav-btn'));
-  showToast('Sesion cerrada', 'success');
+  adminUnlocked=false;
+  document.getElementById('admin-locked-view').style.display='block';
+  document.getElementById('admin-content').style.display='none';
+  document.getElementById('nav-admin').style.display='none';
+  document.getElementById('admin-pass').value='';
+  showPage('inicio',document.querySelector('.nav-btn'));
+  showToast('Sesion cerrada','success');
+}
+
+function guardarMensaje() {
+  const msg = document.getElementById('admin-msg-input').value.trim();
+  adminMsg = msg;
+  localStorage.setItem('adminMsg', msg);
+  // Update banners
+  const bannerEl = document.getElementById('inicio-content').querySelector('.admin-msg-banner');
+  if(bannerEl){bannerEl.textContent=msg;bannerEl.classList.toggle('show',!!msg);}
+  showToast(msg?'Mensaje publicado':'Mensaje eliminado','success');
 }
 
 async function loadAdminData() {
   try {
-    const [calRaw, finRaw, lbRaw, cfgRaw] = await Promise.all([
-      get('calendario'), get('finanzas'), get('leaderboard'), get('config')
-    ]);
-    calData = calRaw.slice(1);
-    finData = finRaw.slice(1);
-
-    // Config
+    const [calRaw, finRaw, cfgRaw] = await Promise.all([get('calendario'), get('finanzas'), get('config')]);
+    const cal = calRaw.slice(1);
+    const fin = finRaw.slice(1);
     const cfg = cfgRaw.slice(1);
-    if(cfg[0]) document.getElementById('cfg-exacta').value = cfg[0][1]||2;
-    if(cfg[1]) document.getElementById('cfg-clasifica').value = cfg[1][1]||1;
-    if(cfg[2]) document.getElementById('cfg-multa').value = cfg[2][1]||2500;
-    if(cfg[3]) document.getElementById('cfg-almuerzo').value = cfg[3][1]||20;
-
-    // Partidos pendientes
-    const pendientes = calData.filter(p=>p[8]!=='Finalizado');
+    const lbRaw = cache.leaderboard || await get('leaderboard');
+    if(cfg[0]) document.getElementById('cfg-exacta').value=cfg[0][1]||2;
+    if(cfg[1]) document.getElementById('cfg-clasifica').value=cfg[1][1]||1;
+    if(cfg[2]) document.getElementById('cfg-multa').value=cfg[2][1]||2500;
+    if(cfg[3]) document.getElementById('cfg-almuerzo').value=cfg[3][1]||20;
+    const pendientes = cal.filter(p=>p[8]!=='Finalizado');
     const sel = document.getElementById('partido-select');
     sel.innerHTML = '<option value="">-- Elegir partido pendiente --</option>' +
-      pendientes.map((p,i)=>{
-        const filaReal = calData.indexOf(p) + 2; // +2 por encabezado y 1-based
-        return `<option value="${filaReal}|${p[4]}|${p[7]}">[Gr.${p[1]}] ${p[2]} ${p[3]} - ${p[4]} vs ${p[7]}</option>`;
+      pendientes.map(p=>{
+        const fila = cal.indexOf(p)+2;
+        const {fechaLegible, horaLegible} = parseFechaHora(p[2], p[3]);
+        return `<option value="${fila}|${p[4]}|${p[7]}">[Gr.${p[1]}] ${fechaLegible} ${horaLegible} - ${p[4]} vs ${p[7]}</option>`;
       }).join('');
-
-    // Pagos
-    renderPagos(finData, lbRaw.slice(1));
-  } catch(e) {
-    showToast('Error cargando datos admin', 'error');
-  }
+    renderPagos(fin, lbRaw.slice(1));
+  } catch(e) { showToast('Error cargando datos admin','error'); }
 }
 
 function renderPagos(fin, lb) {
   const el = document.getElementById('pagos-content');
-  const participantes = fin.filter((r,i)=>i>0 && r[0] && String(r[0]).trim()!=='VALORES ($)');
+  const participantes = fin.filter((r,i)=>i>0&&r[0]&&String(r[0]).trim()!=='VALORES ($)');
   el.innerHTML = participantes.map((p,i)=>{
-    const nombre = String(p[0]||'');
-    const filaReal = fin.indexOf(p) + 2;
-    const inscripcion = Number(p[1])||0;
-    const multaGrupos = Number(p[3])||0;
-    const multa16 = Number(p[5])||0;
-    const multa8 = Number(p[7])||0;
-    const multa4 = Number(p[9])||0;
-    const multaSemi = Number(p[11])||0;
-    const multa3 = Number(p[13])||0;
-    const multaFinal = Number(p[15])||0;
-    const deudaTotal = inscripcion + multaGrupos + multa16 + multa8 + multa4 + multaSemi + multa3 + multaFinal;
-    const abonado = Number(p[20])||0;
-    const saldo = deudaTotal - abonado;
-    const c = AVATARS[i%AVATARS.length];
+    const nombre=String(p[0]||''), c=AVATARS[i%AVATARS.length];
+    const filaReal=fin.indexOf(p)+2;
+    const inscripcion=Number(p[1])||0, multaGrupos=Number(p[3])||0, multa16=Number(p[5])||0;
+    const multa8=Number(p[7])||0, multa4=Number(p[9])||0, multaSemi=Number(p[11])||0;
+    const multa3=Number(p[13])||0, multaFinal=Number(p[15])||0;
+    const deudaTotal=inscripcion+multaGrupos+multa16+multa8+multa4+multaSemi+multa3+multaFinal;
+    const abonado=Number(p[20])||0;
+    const saldo=deudaTotal-abonado;
     return `<div class="pago-row" id="pago-row-${filaReal}">
       <div class="pago-info">
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0">${nombre.charAt(0)}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="width:28px;height:28px;border-radius:50%;background:${c}22;color:${c};border:1px solid ${c}44;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">${nombre.charAt(0)}</div>
           <div class="pago-name">${nombre}</div>
         </div>
         <div class="pago-deuda">Deuda: ${fmtGs(deudaTotal)} | Abonado: ${fmtGs(abonado)}</div>
-        <div class="pago-saldo ${saldo<=0?'ok':'pendiente'}" id="saldo-${filaReal}">${saldo<=0?'Al dia':'Saldo pendiente: '+fmtGs(saldo)}</div>
-        <div style="font-size:10px;color:var(--text3);margin-top:2px;cursor:pointer;text-decoration:underline" onclick="verDetalleDeuda('${nombre}',${inscripcion},${multaGrupos},${multa16},${multa8},${multa4},${multaSemi},${multa3},${multaFinal},${deudaTotal},${abonado})">Ver detalle por fase</div>
+        <div class="pago-saldo ${saldo<=0?'ok':'pendiente'}" id="saldo-${filaReal}">${saldo<=0?'Al dia':'Pendiente: '+fmtGs(saldo)}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;cursor:pointer;text-decoration:underline" onclick="verDetalleDeuda('${nombre}',${inscripcion},${multaGrupos},${multa16},${multa8},${multa4},${multaSemi},${multa3},${multaFinal},${deudaTotal},${abonado})">Ver detalle por fase</div>
       </div>
       <div>
         <div style="font-size:9px;color:var(--text3);text-align:right;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">Nuevo pago</div>
@@ -731,109 +1034,95 @@ function renderPagos(fin, lb) {
 
 function verDetalleDeuda(nombre,insc,mg,m16,m8,m4,ms,m3,mf,total,abonado) {
   document.getElementById('deuda-modal-title').textContent = nombre;
-  const saldo = total - abonado;
-  const fases = [
-    {label:'Inscripcion', monto:insc},
-    {label:'Multa Grupos', monto:mg},
-    {label:'Multa 16avos', monto:m16},
-    {label:'Multa 8vos', monto:m8},
-    {label:'Multa 4tos', monto:m4},
-    {label:'Multa Semifinal', monto:ms},
-    {label:'Multa 3er Puesto', monto:m3},
-    {label:'Multa Final', monto:mf},
+  const saldo=total-abonado;
+  const fases=[
+    {label:'Inscripcion',monto:insc},{label:'Multa Grupos',monto:mg},
+    {label:'Multa 16avos',monto:m16},{label:'Multa 8vos',monto:m8},
+    {label:'Multa 4tos',monto:m4},{label:'Multa Semifinal',monto:ms},
+    {label:'Multa 3er Puesto',monto:m3},{label:'Multa Final',monto:mf},
   ].filter(f=>f.monto>0);
-  document.getElementById('deuda-modal-content').innerHTML = `
+  document.getElementById('deuda-modal-content').innerHTML=`
     <div class="deuda-breakdown">
       ${fases.map(f=>`<div class="deuda-fase"><span>${f.label}</span><span>${fmtGs(f.monto)}</span></div>`).join('')}
-      <div class="deuda-fase total"><span>Total adeudado</span><span>${fmtGs(total)}</span></div>
-      <div class="deuda-fase" style="color:var(--green)"><span>Total abonado</span><span style="color:var(--green)">${fmtGs(abonado)}</span></div>
-      <div class="deuda-fase" style="color:${saldo>0?'var(--red)':'var(--green)'}"><span>Saldo pendiente</span><span>${fmtGs(saldo)}</span></div>
+      <div class="deuda-fase" style="margin-top:8px"><span style="font-weight:600">Total adeudado</span><span style="color:var(--red);font-weight:600">${fmtGs(total)}</span></div>
+      <div class="deuda-fase"><span style="color:var(--green)">Total abonado</span><span style="color:var(--green)">${fmtGs(abonado)}</span></div>
+      <div class="deuda-fase"><span style="color:${saldo>0?'var(--gold2)':'var(--green)'}">Saldo pendiente</span><span style="color:${saldo>0?'var(--gold2)':'var(--green)'}">${fmtGs(Math.max(0,saldo))}</span></div>
     </div>`;
   document.getElementById('deuda-modal').classList.add('show');
 }
 
-async function guardarPago(fila, nombre, deudaTotal, abonadoAnterior) {
-  const nuevoPago = Number(document.getElementById(`abono-${fila}`).value)||0;
-  if(nuevoPago <= 0) { showToast('Ingresa un monto mayor a 0', 'error'); return; }
+async function guardarPago(fila,nombre,deudaTotal,abonadoAnterior) {
+  const nuevoPago=Number(document.getElementById(`abono-${fila}`).value)||0;
+  if(nuevoPago<=0){showToast('Ingresa un monto mayor a 0','error');return;}
   try {
-    const res = await post({action:'pago', fila:fila, monto:nuevoPago});
-    if(res.ok) {
-      // Actualizar display inmediatamente sin recargar todo
-      const nuevoAbonado = abonadoAnterior + nuevoPago;
-      const nuevoSaldo = deudaTotal - nuevoAbonado;
-      const row = document.getElementById(`pago-row-${fila}`);
-      if(row) {
-        row.querySelector('.pago-deuda').textContent = `Deuda: ${fmtGs(deudaTotal)} | Abonado: ${fmtGs(nuevoAbonado)}`;
-        const saldoEl = document.getElementById(`saldo-${fila}`);
-        if(saldoEl) {
-          saldoEl.textContent = nuevoSaldo <= 0 ? 'Al dia' : 'Saldo pendiente: ' + fmtGs(nuevoSaldo);
-          saldoEl.className = `pago-saldo ${nuevoSaldo<=0?'ok':'pendiente'}`;
-        }
-        document.getElementById(`abono-${fila}`).value = '';
+    const res=await post({action:'pago',fila:fila,monto:nuevoPago});
+    if(res.ok){
+      const nuevoAbonado=abonadoAnterior+nuevoPago;
+      const nuevoSaldo=deudaTotal-nuevoAbonado;
+      const row=document.getElementById(`pago-row-${fila}`);
+      if(row){
+        row.querySelector('.pago-deuda').textContent=`Deuda: ${fmtGs(deudaTotal)} | Abonado: ${fmtGs(nuevoAbonado)}`;
+        const sEl=document.getElementById(`saldo-${fila}`);
+        if(sEl){sEl.textContent=nuevoSaldo<=0?'Al dia':'Pendiente: '+fmtGs(nuevoSaldo);sEl.className=`pago-saldo ${nuevoSaldo<=0?'ok':'pendiente'}`;}
+        document.getElementById(`abono-${fila}`).value='';
       }
-      showToast(nombre + ': pago de ' + fmtGs(nuevoPago) + ' registrado', 'success');
+      showToast(`${nombre}: ${fmtGs(nuevoPago)} registrado`,'success');
       delete cache.finanzas;
-    } else { showToast(res.msg||'Error', 'error'); }
-  } catch(e) { showToast('Error de conexion', 'error'); }
+    } else {showToast(res.msg||'Error','error');}
+  } catch(e){showToast('Error de conexion','error');}
 }
 
 function onPartidoChange() {
-  const val = document.getElementById('partido-select').value;
-  const sec = document.getElementById('score-section');
-  if(!val) { sec.style.display='none'; return; }
-  const parts = val.split('|');
-  document.getElementById('team-local-lbl').textContent = parts[1]||'';
-  document.getElementById('team-visita-lbl').textContent = parts[2]||'';
-  document.getElementById('goles-local').value = '';
-  document.getElementById('goles-visita').value = '';
-  sec.style.display = 'block';
+  const val=document.getElementById('partido-select').value;
+  const sec=document.getElementById('score-section');
+  if(!val){sec.style.display='none';return;}
+  const parts=val.split('|');
+  document.getElementById('team-local-lbl').textContent=parts[1]||'';
+  document.getElementById('team-visita-lbl').textContent=parts[2]||'';
+  document.getElementById('goles-local').value='';
+  document.getElementById('goles-visita').value='';
+  sec.style.display='block';
 }
 
 async function guardarResultado() {
-  const val = document.getElementById('partido-select').value;
-  if(!val) { showToast('Selecciona un partido', 'error'); return; }
-  const fila = parseInt(val.split('|')[0]);
-  const gL = document.getElementById('goles-local').value;
-  const gV = document.getElementById('goles-visita').value;
-  if(gL===''||gV==='') { showToast('Ingresa ambos marcadores', 'error'); return; }
+  const val=document.getElementById('partido-select').value;
+  if(!val){showToast('Selecciona un partido','error');return;}
+  const fila=parseInt(val.split('|')[0]);
+  const gL=document.getElementById('goles-local').value;
+  const gV=document.getElementById('goles-visita').value;
+  if(gL===''||gV===''){showToast('Ingresa ambos marcadores','error');return;}
   try {
-    const res = await post({action:'resultado', fila:fila, golesLocal:parseInt(gL), golesVisita:parseInt(gV)});
-    if(res.ok) {
-      showToast('Resultado guardado correctamente', 'success');
-      delete cache.calendario;
-      delete cache.grupos;
+    const res=await post({action:'resultado',fila:fila,golesLocal:parseInt(gL),golesVisita:parseInt(gV)});
+    if(res.ok){
+      showToast('Resultado guardado','success');
+      delete cache.calendario; delete cache.grupos;
       document.getElementById('score-section').style.display='none';
       await loadAdminData();
-    } else { showToast(res.msg||'Error', 'error'); }
-  } catch(e) { showToast('Error de conexion', 'error'); }
+    } else {showToast(res.msg||'Error','error');}
+  } catch(e){showToast('Error de conexion','error');}
 }
 
 async function guardarConfig() {
-  const payload = {
-    action:'config',
-    ptsExacta: parseInt(document.getElementById('cfg-exacta').value)||2,
-    ptsClasifica: parseInt(document.getElementById('cfg-clasifica').value)||1,
-    multa: parseInt(document.getElementById('cfg-multa').value)||2500,
-    pctAlmuerzo: parseInt(document.getElementById('cfg-almuerzo').value)||20
-  };
+  const payload={action:'config',ptsExacta:parseInt(document.getElementById('cfg-exacta').value)||2,ptsClasifica:parseInt(document.getElementById('cfg-clasifica').value)||1,multa:parseInt(document.getElementById('cfg-multa').value)||2500,pctAlmuerzo:parseInt(document.getElementById('cfg-almuerzo').value)||20};
   try {
-    const res = await post(payload);
-    if(res.ok) { showToast('Configuracion guardada', 'success'); delete cache.config; }
-    else { showToast(res.msg||'Error', 'error'); }
-  } catch(e) { showToast('Error de conexion', 'error'); }
+    const res=await post(payload);
+    if(res.ok){showToast('Configuracion guardada','success');delete cache.config;}
+    else {showToast(res.msg||'Error','error');}
+  } catch(e){showToast('Error de conexion','error');}
 }
 
 // ── NAV & HELPERS ─────────────────────────────────────────────────────────────
-function showPage(name, btn) {
+function showPage(name,btn) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(`page-${name}`).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(name==='leaderboard') renderLeaderboard();
-  if(name==='grupos') renderGrupos();
-  if(name==='apuestas') renderApuestas();
-  if(name==='partidos') renderPartidos();
-  if(name==='admin' && adminUnlocked) loadAdminData();
+  if(btn)btn.classList.add('active');
+  if(name==='leaderboard')renderLeaderboard();
+  if(name==='grupos')renderGrupos();
+  if(name==='apuestas')renderApuestas();
+  if(name==='estadisticas')renderEstadisticas();
+  if(name==='partidos')renderPartidos();
+  if(name==='admin'&&adminUnlocked)loadAdminData();
 }
 
 function toggleDetail(card) {
@@ -850,27 +1139,29 @@ async function refreshAll() {
   cache={};
   const active=document.querySelector('.page.active').id.replace('page-','');
   try {
-    if(active==='inicio') await renderInicio();
-    else if(active==='leaderboard') await renderLeaderboard();
-    else if(active==='grupos') await renderGrupos();
-    else if(active==='apuestas') await renderApuestas();
-    else if(active==='partidos') await renderPartidos();
-    else if(active==='admin' && adminUnlocked) await loadAdminData();
-    showToast('Datos actualizados', 'success');
-  } catch(e) { showToast('Error al actualizar', 'error'); }
+    if(active==='inicio')await renderInicio();
+    else if(active==='leaderboard')await renderLeaderboard();
+    else if(active==='grupos')await renderGrupos();
+    else if(active==='apuestas')await renderApuestas();
+    else if(active==='estadisticas')await renderEstadisticas();
+    else if(active==='partidos')await renderPartidos();
+    else if(active==='admin'&&adminUnlocked)await loadAdminData();
+    showToast('Datos actualizados','success');
+  } catch(e){showToast('Error al actualizar','error');}
   spin.classList.remove('spinning');
 }
 
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function closeModal(id){document.getElementById(id).classList.remove('show');}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);}));
 
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.className=`toast ${type} show`;
+  t.textContent=msg;t.className=`toast ${type} show`;
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-renderInicio();
+// ── INIT ──────────────────────────────────────────────────────────────────────
+initWelcome();
 </script>
 </body>
 </html>
