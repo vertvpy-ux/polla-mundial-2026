@@ -646,6 +646,22 @@ async function renderLeaderboard() {
     lastUpdate = new Date();
     upEl.innerHTML = `<div class="dot-live"></div><span>Actualizado ${fmtTime(lastUpdate)}</span>`;
     const maxPts = Math.max(...lb.map(p=>Number(p[4])||0), 1);
+
+    // Cargar posiciones anteriores y guardar las actuales
+    const prevPos = JSON.parse(localStorage.getItem('lb_prev_pos') || '{}');
+    const currentPos = {};
+    lb.forEach((p, i) => { currentPos[String(p[1]||'')] = i + 1; });
+
+    // Guardar posiciones actuales para la proxima comparacion
+    // Solo actualizamos si hay datos reales (pts > 0 en algun participante)
+    const hayPuntos = lb.some(p => Number(p[4]) > 0);
+    if (hayPuntos && Object.keys(prevPos).length > 0) {
+      // Ya tenemos historial, comparamos
+    } else if (hayPuntos) {
+      // Primera vez con datos, guardamos como base
+      localStorage.setItem('lb_prev_pos', JSON.stringify(currentPos));
+    }
+
     el.innerHTML = lb.map((p,i)=>{
       const pos=p[0], isLast=String(pos).includes('ULTIMO')||String(pos).includes('Ultimo')||String(pos).includes('\uD83E\uDD44');
       const posClass=pos===1?'pos-1':pos===2?'pos-2':pos===3?'pos-3':'';
@@ -653,6 +669,23 @@ async function renderLeaderboard() {
       const c=AVATARS[i%AVATARS.length];
       const nombre=String(p[1]||''), multa=Number(p[2])||0, errados=Number(p[3])||0, pts=Number(p[4])||0, exactos=Number(p[5])||0;
       const pct = Math.round((pts/maxPts)*100);
+
+      // Calcular tendencia
+      const posActual = i + 1;
+      const posAnterior = prevPos[nombre];
+      let trendHtml = '<span style="color:var(--text3);font-size:14px;font-weight:600;min-width:16px;text-align:center">—</span>';
+      if (posAnterior !== undefined && posAnterior !== posActual) {
+        if (posActual < posAnterior) {
+          // Subio posiciones (numero menor = mejor posicion)
+          const diff = posAnterior - posActual;
+          trendHtml = `<span style="color:var(--green);font-size:13px;font-weight:700;min-width:16px;text-align:center">▲${diff>1?diff:''}</span>`;
+        } else {
+          // Bajo posiciones
+          const diff = posActual - posAnterior;
+          trendHtml = `<span style="color:var(--red);font-size:13px;font-weight:700;min-width:16px;text-align:center">▼${diff>1?diff:''}</span>`;
+        }
+      }
+
       return `<div class="lb-card ${cardClass}" onclick="toggleDetail(this)">
         <div class="lb-row">
           <div class="lb-pos ${posClass}" style="${isLast?'font-size:16px':''}">${isLast?'ULT':pos}</div>
@@ -661,7 +694,10 @@ async function renderLeaderboard() {
             <div class="lb-name">${nombre}</div>
             <div class="lb-detail">${exactos} exactos - ${errados} errados</div>
           </div>
-          <div class="lb-pts"><div class="lb-pts-val">${pts}</div><div class="lb-pts-lbl">pts</div></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${trendHtml}
+            <div class="lb-pts"><div class="lb-pts-val">${pts}</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
         </div>
         <div class="lb-progress"><div class="lb-progress-bar" style="width:${pct}%;background:${pos===1?'linear-gradient(90deg,var(--gold),var(--gold2))':pos===2?'linear-gradient(90deg,var(--silver),#8899aa)':pos===3?'linear-gradient(90deg,var(--bronze),#a06030)':'linear-gradient(90deg,var(--blue),#2266cc)'}"></div></div>
         <div class="lb-detail-panel">
@@ -673,8 +709,23 @@ async function renderLeaderboard() {
           <div class="multa-chip"><span>Multa acumulada</span><span>${fmtGs(multa)}</span></div>
         </div>
       </div>`;
-    }).join('') + `<button class="share-btn" onclick="shareRanking()">Compartir Ranking por WhatsApp</button>`;
+    }).join('');
+
+    // Botones al pie
+    el.innerHTML += `
+      <button class="share-btn" onclick="shareRanking()">Compartir Ranking por WhatsApp</button>
+      <button onclick="actualizarPosiciones(${JSON.stringify(currentPos).replace(/"/g,'&quot;')})"
+        style="width:100%;margin-top:8px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text2);font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer">
+        Guardar posiciones actuales como referencia
+      </button>`;
+
   } catch(e) { el.innerHTML = errHTML('renderLeaderboard'); }
+}
+
+function actualizarPosiciones(posObj) {
+  localStorage.setItem('lb_prev_pos', JSON.stringify(posObj));
+  showToast('Posiciones guardadas como referencia', 'success');
+  renderLeaderboard();
 }
 
 // ── SHARE ─────────────────────────────────────────────────────────────────────
