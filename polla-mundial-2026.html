@@ -268,6 +268,31 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="position:fixed;inset:0;background:#0a0a0f;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="width:100%;max-width:360px;text-align:center">
+    <div style="font-size:56px;margin-bottom:16px">&#9917;</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--gold);margin-bottom:4px">POLLA MUNDIAL</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:32px;letter-spacing:1px">FIFA WORLD CUP 2026</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Ingresa la contrasena del grupo</div>
+      <input type="password" id="login-pass" placeholder="Contrasena"
+        style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;padding:12px;outline:none;text-align:center;letter-spacing:3px;margin-bottom:12px;transition:border-color .2s"
+        onkeydown="if(event.key==='Enter')checkLogin()"
+        onfocus="this.style.borderColor='var(--gold2)'"
+        onblur="this.style.borderColor='var(--border)'">
+      <div id="login-error" style="font-size:12px;color:var(--red);margin-bottom:12px;display:none">Contrasena incorrecta. Intentalo de nuevo.</div>
+      <button onclick="checkLogin()"
+        style="width:100%;padding:12px;border:none;border-radius:10px;background:var(--gold);color:#000;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:background .2s"
+        onmouseover="this.style.background='var(--gold2)'"
+        onmouseout="this.style.background='var(--gold)'">
+        Entrar
+      </button>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:16px">Contacta al organizador si no tenes la contrasena</div>
+  </div>
+</div>
+
 <!-- WELCOME MODAL -->
 <div class="welcome-overlay" id="welcome-overlay">
   <div class="welcome-box">
@@ -393,6 +418,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
       <button class="btn btn-gold" onclick="guardarConfig()">Guardar Configuracion</button>
     </div>
     <button class="btn btn-red" onclick="cerrarAdmin()" style="margin-top:4px">Cerrar sesion admin</button>
+    <div style="margin-top:16px;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;font-size:11px;color:var(--text3);line-height:1.6">
+      <strong style="color:var(--text2);display:block;margin-bottom:4px">Contrasena actual del grupo</strong>
+      La contrasena del grupo se cambia directamente en el codigo fuente (constante APP_PASS). Al cambiarla, todos los dispositivos deberan ingresar la nueva contrasena la proxima vez que abran la app.
+    </div>
   </div>
 </div>
 
@@ -1160,8 +1189,29 @@ function showToast(msg,type=''){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+function checkLogin() {
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  if (pass === APP_PASS) {
+    localStorage.setItem('app_access', APP_PASS);
+    document.getElementById('login-screen').style.display = 'none';
+    errEl.style.display = 'none';
+    initWelcome();
+  } else {
+    errEl.style.display = 'block';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-pass').focus();
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
-initWelcome();
+// Verificar si el dispositivo ya tiene acceso guardado
+if (localStorage.getItem('app_access') === APP_PASS) {
+  document.getElementById('login-screen').style.display = 'none';
+  initWelcome();
+}
+// Si no, el login screen ya está visible por defecto
 </script>
 </body>
 </html>
