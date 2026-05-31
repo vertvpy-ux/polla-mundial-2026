@@ -1050,10 +1050,13 @@ async function loadAdminData() {
   } catch(e) { showToast('Error cargando datos admin','error'); }
 }
 
+// Datos globales de pagos para el selector
+let pagosData = [];
+
 function renderPagos(fin, lb) {
   const el = document.getElementById('pagos-content');
   const participantes = fin.filter((r,i)=>i>0&&r[0]&&String(r[0]).trim()!=='VALORES ($)');
-  el.innerHTML = participantes.map((p,i)=>{
+  pagosData = participantes.map((p,i) => {
     const nombre=String(p[0]||''), c=AVATARS[i%AVATARS.length];
     const filaReal=fin.indexOf(p)+2;
     const inscripcion=Number(p[1])||0, multaGrupos=Number(p[3])||0, multa16=Number(p[5])||0;
@@ -1062,25 +1065,67 @@ function renderPagos(fin, lb) {
     const deudaTotal=inscripcion+multaGrupos+multa16+multa8+multa4+multaSemi+multa3+multaFinal;
     const abonado=Number(p[20])||0;
     const saldo=deudaTotal-abonado;
-    return `<div class="pago-row" id="pago-row-${filaReal}">
-      <div class="pago-info">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          <div style="width:28px;height:28px;border-radius:50%;background:${c}22;color:${c};border:1px solid ${c}44;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">${nombre.charAt(0)}</div>
-          <div class="pago-name">${nombre}</div>
-        </div>
-        <div class="pago-deuda">Deuda: ${fmtGs(deudaTotal)} | Abonado: ${fmtGs(abonado)}</div>
-        <div class="pago-saldo ${saldo<=0?'ok':'pendiente'}" id="saldo-${filaReal}">${saldo<=0?'Al dia':'Pendiente: '+fmtGs(saldo)}</div>
-        <div style="font-size:10px;color:var(--text3);margin-top:3px;cursor:pointer;text-decoration:underline" onclick="verDetalleDeuda('${nombre}',${inscripcion},${multaGrupos},${multa16},${multa8},${multa4},${multaSemi},${multa3},${multaFinal},${deudaTotal},${abonado})">Ver detalle por fase</div>
-      </div>
-      <div>
-        <div style="font-size:9px;color:var(--text3);text-align:right;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">Nuevo pago</div>
-        <div class="pago-input-wrap">
-          <input type="number" class="pago-input" id="abono-${filaReal}" placeholder="0" min="0">
-          <button class="pago-btn" onclick="guardarPago(${filaReal},'${nombre}',${deudaTotal},${abonado})">OK</button>
-        </div>
-      </div>
+    return {nombre, c, filaReal, inscripcion, multaGrupos, multa16, multa8, multa4, multaSemi, multa3, multaFinal, deudaTotal, abonado, saldo};
+  });
+
+  // Resumen general con selector
+  el.innerHTML = `
+    <div class="form-group">
+      <label class="form-label">Seleccionar participante</label>
+      <select class="form-select" id="pago-selector" onchange="mostrarPagoParticipante()">
+        <option value="">-- Elegir participante --</option>
+        ${pagosData.map((p,i) => `<option value="${i}">${p.nombre} ${p.saldo<=0?'✓ Al dia':'— Pendiente: '+fmtGs(p.saldo)}</option>`).join('')}
+      </select>
+    </div>
+    <div id="pago-detalle-container"></div>
+    <div style="margin-top:14px;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:10px">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Resumen general</div>
+      ${pagosData.map(p=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:24px;height:24px;border-radius:50%;background:${p.c}22;color:${p.c};border:1px solid ${p.c}44;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px">${p.nombre.charAt(0)}</div>
+            <span style="font-size:13px;font-weight:500">${p.nombre}</span>
+          </div>
+          <span style="font-size:12px;font-family:'DM Mono',monospace;color:${p.saldo<=0?'var(--green)':'var(--gold2)'}">${p.saldo<=0?'Al dia':fmtGs(p.saldo)}</span>
+        </div>`).join('')}
     </div>`;
-  }).join('');
+}
+
+function mostrarPagoParticipante() {
+  const idx = document.getElementById('pago-selector').value;
+  const el = document.getElementById('pago-detalle-container');
+  if (idx === '') { el.innerHTML = ''; return; }
+  const p = pagosData[parseInt(idx)];
+  el.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:4px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:38px;height:38px;border-radius:50%;background:${p.c}22;color:${p.c};border:2px solid ${p.c}44;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">${p.nombre.charAt(0)}</div>
+        <div>
+          <div style="font-weight:600;font-size:15px">${p.nombre}</div>
+          <div style="font-size:11px;color:var(--text2)">Deuda total: ${fmtGs(p.deudaTotal)}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:var(--red)">${fmtGs(p.deudaTotal)}</div>
+          <div style="font-size:10px;color:var(--text2);text-transform:uppercase;margin-top:2px">Total deuda</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:var(--green)">${fmtGs(p.abonado)}</div>
+          <div style="font-size:10px;color:var(--text2);text-transform:uppercase;margin-top:2px">Abonado</div>
+        </div>
+      </div>
+      <div style="background:${p.saldo<=0?'rgba(46,204,113,.08)':'rgba(245,200,66,.08)'};border:1px solid ${p.saldo<=0?'rgba(46,204,113,.3)':'rgba(245,200,66,.3)'};border-radius:8px;padding:10px;text-align:center;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:2px">Saldo pendiente</div>
+        <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:${p.saldo<=0?'var(--green)':'var(--gold2)'}">${p.saldo<=0?'Al dia':fmtGs(p.saldo)}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text3);text-align:right;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Registrar nuevo pago</div>
+      <div style="display:flex;gap:8px">
+        <input type="number" id="abono-${p.filaReal}" class="form-input" placeholder="Monto en Gs." min="0" style="font-family:'DM Mono',monospace">
+        <button class="pago-btn" style="padding:10px 16px;font-size:13px" onclick="guardarPago(${p.filaReal},'${p.nombre}',${p.deudaTotal},${p.abonado})">Registrar</button>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3);cursor:pointer;text-decoration:underline;text-align:center" onclick="verDetalleDeuda('${p.nombre}',${p.inscripcion},${p.multaGrupos},${p.multa16},${p.multa8},${p.multa4},${p.multaSemi},${p.multa3},${p.multaFinal},${p.deudaTotal},${p.abonado})">Ver detalle por fase</div>
+    </div>`;
 }
 
 function verDetalleDeuda(nombre,insc,mg,m16,m8,m4,ms,m3,mf,total,abonado) {
@@ -1108,17 +1153,18 @@ async function guardarPago(fila,nombre,deudaTotal,abonadoAnterior) {
   try {
     const res=await post({action:'pago',fila:fila,monto:nuevoPago});
     if(res.ok){
-      const nuevoAbonado=abonadoAnterior+nuevoPago;
-      const nuevoSaldo=deudaTotal-nuevoAbonado;
-      const row=document.getElementById(`pago-row-${fila}`);
-      if(row){
-        row.querySelector('.pago-deuda').textContent=`Deuda: ${fmtGs(deudaTotal)} | Abonado: ${fmtGs(nuevoAbonado)}`;
-        const sEl=document.getElementById(`saldo-${fila}`);
-        if(sEl){sEl.textContent=nuevoSaldo<=0?'Al dia':'Pendiente: '+fmtGs(nuevoSaldo);sEl.className=`pago-saldo ${nuevoSaldo<=0?'ok':'pendiente'}`;}
-        document.getElementById(`abono-${fila}`).value='';
-      }
       showToast(`${nombre}: ${fmtGs(nuevoPago)} registrado`,'success');
       delete cache.finanzas;
+      // Recargar datos de pagos para actualizar el selector
+      const finRaw = await get('finanzas');
+      const fin = finRaw.slice(1);
+      renderPagos(fin, []);
+      // Restaurar el mismo participante seleccionado
+      const sel = document.getElementById('pago-selector');
+      if(sel) {
+        const idx = [...sel.options].findIndex(o=>o.text.startsWith(nombre));
+        if(idx>=0){sel.selectedIndex=idx; mostrarPagoParticipante();}
+      }
     } else {showToast(res.msg||'Error','error');}
   } catch(e){showToast('Error de conexion','error');}
 }
