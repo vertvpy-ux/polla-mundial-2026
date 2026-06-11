@@ -465,7 +465,7 @@ function parseFechaHora(fecha, hora) {
     // Paraguay es UTC-4, pero Google Sheets ya suma el offset local al serializar
     // Usamos getUTCHours y restamos 4 para convertir a hora Paraguay
     const t = new Date(horaStr);
-    hh = t.getUTCHours() - 4;
+    hh = t.getUTCHours() - 3;
     if (hh < 0) hh += 24;
     mm = t.getUTCMinutes();
   } else if (horaStr.includes(':')) {
