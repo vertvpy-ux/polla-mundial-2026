@@ -842,7 +842,7 @@ async function renderApuestas() {
             const s=String(pred||'');
         
             // Buscar puntos reales desde PUNTUACION_TOTAL
-            const puntuacionParticipante = puntuacion.find(r=>String(r[0]).trim()===nombre.trim());
+            const puntuacionParticipante = puntuacion.find(r=>String(r[0]).trim().toLowerCase()===nombre.trim().toLowerCase());
             let pts = 0, cls = 'incorrecto', ptsClass = 'c0';
             if (puntuacionParticipante) {
               const colIndex = 5 + gi * 4 + idx;
