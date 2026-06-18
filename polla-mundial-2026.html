@@ -875,7 +875,7 @@ function switchPred(idx,btn) {
   document.querySelectorAll('.pred-content').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
   const predEl = document.getElementById(`pred-${idx}`);
-if(predEl) predEl.classList
+if(predEl) predEl.classList.add('active');
 }
 
 // ── ESTADISTICAS ──────────────────────────────────────────────────────────────
