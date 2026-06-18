@@ -164,6 +164,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .pred-pos{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;text-align:right;padding-right:6px}
 .pred-equipo{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;font-weight:500}
 .pred-equipo.correcto{border-color:var(--green);background:rgba(46,204,113,.08);color:var(--green)}
+.pred-equipo.exacto{border-color:var(--blue);background:rgba(74,158,255,.08);color:var(--blue)}
 .pred-equipo.parcial{border-color:var(--gold2);background:rgba(245,200,66,.08);color:var(--gold)}
 .pred-equipo.incorrecto{color:var(--text2)}
 .pred-pts{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:center;min-width:28px}
@@ -849,7 +850,7 @@ async function renderApuestas() {
               const val = puntuacionParticipante[colIndex];
               pts = (val === '-' || val === '' || val === undefined) ? null : Number(val);
               if (pts === 3) { cls = 'correcto'; ptsClass = 'c3'; }
-              else if (pts === 2) { cls = 'parcial'; ptsClass = 'c2'; }
+              else if (pts === 2) { cls = 'exacto'; ptsClass = 'c2'; }
               else if (pts === 1) { cls = 'parcial'; ptsClass = 'c1'; }
               else { cls = 'incorrecto'; ptsClass = 'c0'; }
             }
