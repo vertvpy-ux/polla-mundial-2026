@@ -847,7 +847,7 @@ async function renderApuestas() {
             if (puntuacionParticipante) {
               const colIndex = 5 + gi * 4 + idx;
               const val = puntuacionParticipante[colIndex];
-              pts = val === '-' || val === '' ? null : Number(val);
+              pts = (val === '-' || val === '' || val === undefined) ? null : Number(val);
               if (pts === 3) { cls = 'correcto'; ptsClass = 'c3'; }
               else if (pts === 2) { cls = 'parcial'; ptsClass = 'c2'; }
               else if (pts === 1) { cls = 'parcial'; ptsClass = 'c1'; }
@@ -875,7 +875,8 @@ function switchPred(idx,btn) {
   document.querySelectorAll('.pred-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.pred-content').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById(`pred-${idx}`).classList.add('active');
+  const predEl = document.getElementById(`pred-${idx}`);
+if(predEl) predEl.classList
 }
 
 // ── ESTADISTICAS ──────────────────────────────────────────────────────────────
