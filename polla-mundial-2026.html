@@ -847,16 +847,12 @@ async function renderApuestas() {
             if (puntuacionParticipante) {
               const colIndex = 5 + gi * 4 + idx;
               const val = puntuacionParticipante[colIndex];
-              console.log('gi:', gi, 'idx:', idx, 'colIndex:', colIndex, 'val:', puntuacionParticipante ? puntuacionParticipante[colIndex] : 'null');
               pts = (val === '-' || val === '' || val === undefined) ? null : Number(val);
               if (pts === 3) { cls = 'correcto'; ptsClass = 'c3'; }
               else if (pts === 2) { cls = 'parcial'; ptsClass = 'c2'; }
               else if (pts === 1) { cls = 'parcial'; ptsClass = 'c1'; }
               else { cls = 'incorrecto'; ptsClass = 'c0'; }
             }
-            console.log('Nombre buscado:', nombre);
-            console.log('Encontrado:', puntuacionParticipante);
-            console.log('ColIndex:', colIndex, 'Valor:', puntuacionParticipante ? puntuacionParticipante[colIndex] : 'NO ENCONTRADO');
             
             const ptsLabel = pts !== null && pts >= 0 ? `+${pts}` : '·';
         
