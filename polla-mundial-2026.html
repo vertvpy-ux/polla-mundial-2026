@@ -854,8 +854,9 @@ async function renderApuestas() {
               else { cls = 'incorrecto'; ptsClass = 'c0'; }
             }
             console.log('Nombre buscado:', nombre);
-console.log('Encontrado:', puntuacionParticipante);
-console.log('ColIndex:', colIndex, 'Valor:', puntuacionParticipante ? puntuacionParticipante[colIndex] : 'NO ENCONTRADO');
+            console.log('Encontrado:', puntuacionParticipante);
+            console.log('ColIndex:', colIndex, 'Valor:', puntuacionParticipante ? puntuacionParticipante[colIndex] : 'NO ENCONTRADO');
+            console.log('gi:', gi, 'idx:', idx, 'colIndex:', colIndex, 'val:', puntuacionParticipante ? puntuacionParticipante[colIndex] : 'null');
             const ptsLabel = pts !== null && pts >= 0 ? `+${pts}` : '·';
         
             html+=`<div class="pred-row">
