@@ -797,8 +797,9 @@ async function renderApuestas() {
   const el = document.getElementById('pred-content');
   el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
   try {
-    const [predsRaw, lista32Raw, lbRaw] = await Promise.all([get('predicciones'), get('lista32'), cache.leaderboard?Promise.resolve(cache.leaderboard):get('leaderboard')]);
+    const [predsRaw, lista32Raw, lbRaw, puntuacionRaw] = await Promise.all([get('predicciones'), get('lista32'), cache.leaderboard?Promise.resolve(cache.leaderboard):get('leaderboard'), get('puntuacion')]);
     const preds = predsRaw.slice(1).filter(r=>r[2]);
+    const puntuacion = puntuacionRaw.slice(1); // fila 0 es encabezado
     const lista32 = lista32Raw.slice(1);
     const lb = lbRaw.slice(1);
     const clasificados = new Set();
@@ -839,8 +840,19 @@ async function renderApuestas() {
         html+=`<div class="pred-grupo-title">Grupo ${g}</div>`;
         preds4.forEach((pred,idx)=>{
           const s=String(pred||'');
-          let cls='incorrecto', pts=0, ptsClass='c0';
-          if(idx===0&&s===real1[gi]&&clasificados.has(s)){cls='correcto';pts=3;ptsClass='c3';}
+          // Buscar puntos reales desde PUNTUACION_TOTAL
+          const puntuacionParticipante = puntuacion.find(r=>String(r[0]).trim()===nombre.trim());
+          let pts = 0, cls = 'incorrecto', ptsClass = 'c0';
+          if (puntuacionParticipante) {
+              const colIndex = 5 + gi * 4 + idx; // columna F en adelante, 4 cols por grupo
+              const val = puntuacionParticipante[colIndex];
+              pts = val === '-' || val === '' ? null : Number(val);
+              if (pts === 3) { cls = 'correcto'; ptsClass = 'c3'; }
+              else if (pts === 2) { cls = 'parcial'; ptsClass = 'c2'; }
+              else if (pts === 1) { cls = 'parcial'; ptsClass = 'c1'; }
+              else { cls = 'incorrecto'; ptsClass = 'c0'; }
+          }
+          const ptsLabel = pts !== null && pts >= 0 ? `+${pts}` : '·';
           else if(idx===1&&s===real2[gi]&&clasificados.has(s)){cls='correcto';pts=3;ptsClass='c3';}
           else if(idx===2&&realM3.includes(s)){cls='correcto';pts=3;ptsClass='c3';}
           else if(idx===2&&!clasificados.has(s)&&s){cls='parcial';pts=2;ptsClass='c2';}
