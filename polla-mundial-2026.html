@@ -384,9 +384,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 </div>
 
 <div id="app-grupos" style="display:none">
-<button class="welcome-btn" onclick="closeWelcome()">Entrar al juego</button>
-  </div>
-</div>
+
 
 <div class="header">
   <div class="header-top">
@@ -788,7 +786,8 @@ function startCountdown(target, dId, hId, mId, sId) {
 }
 
 function closeWelcome() {
-  document.getElementById('welcome-overlay').classList.add('hide');
+  const wo = document.getElementById('welcome-overlay');
+  if (wo) wo.classList.add('hide');
   renderInicio();
 }
 
