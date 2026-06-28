@@ -1791,17 +1791,10 @@ async function shareRankingElim() {
   try {
     const raw=cacheElim.leaderboard||await getElim('leaderboard');
     const lb=(Array.isArray(raw)?raw:[]).filter(r=>r.Nombre&&r.Nombre!=='').sort((a,b)=>(Number(b.Pts_Total)||0)-(Number(a.Pts_Total)||0));
-    let txt='POLLA MUNDIAL 2026 - ELIMINATORIA
-Ranking '+fmtTime(new Date())+'
---------------------------------
-
-';
-    lb.forEach((p,i)=>{ txt+=`${i+1}. ${p.Nombre} - ${p.Pts_Total||0} pts
-   Aciertos: ${p.Aciertos||0}  Errados: ${p.Errados||0}  Multa: ${fmtGs(p.Multa_Total||0)}
-
-`; });
-    txt+='--------------------------------
-Eliminatoria en curso';
+    let txt='POLLA MUNDIAL 2026 - ELIMINATORIA\\n';
+    txt += 'Ranking '+fmtTime(new Date())+'\\n--------------------------------\\n\\n';
+    lb.forEach((p,i)=>{ txt+=`${i+1}. ${p.Nombre} - ${p.Pts_Total||0} pts\n   Aciertos: ${p.Aciertos||0}  Errados: ${p.Errados||0}  Multa: ${fmtGs(p.Multa_Total||0)}\n\n`; });
+    txt+='--------------------------------\\nEliminatoria en curso';
     window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank');
   } catch(e){ showToast('Error al compartir','error'); }
 }
