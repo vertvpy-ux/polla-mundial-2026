@@ -265,21 +265,130 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.success{border-color:var(--green);color:var(--green)}
 .toast.error{border-color:var(--red);color:var(--red)}
+
+/* ── PHASE SELECTOR ─────────────────────────────────────────────────────────── */
+.phase-sel{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.phase-sel.hide{display:none}
+.phase-inner{width:100%;max-width:400px;text-align:center;padding:20px 0}
+.phase-ball{font-size:52px;margin-bottom:14px;animation:bounce 1.2s ease infinite alternate;display:block}
+.phase-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(--gold);margin-bottom:4px}
+.phase-sub{font-size:12px;color:var(--text2);margin-bottom:22px;letter-spacing:.5px}
+.phase-cards{display:flex;flex-direction:column;gap:10px}
+.phase-card{background:var(--card);border-radius:16px;padding:20px 18px;cursor:pointer;transition:var(--tr);text-align:left;position:relative;overflow:hidden}
+.phase-card:active{transform:scale(.98)}
+.phase-card-grupos{border:1px solid var(--gold2)}
+.phase-card-grupos:hover{background:rgba(245,200,66,.06);border-color:var(--gold)}
+.phase-card-elim{border:1px solid var(--blue)}
+.phase-card-elim:hover{background:rgba(74,158,255,.06);border-color:#6ab4ff}
+.phase-icon{font-size:26px;margin-bottom:8px;display:block}
+.phase-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:20px;margin-bottom:10px}
+.phase-badge-done{background:rgba(136,136,170,.15);color:var(--text2)}
+.phase-badge-live{background:rgba(46,204,113,.15);color:var(--green)}
+.phase-card-name{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:2px;margin-bottom:5px}
+.phase-card-grupos .phase-card-name{color:var(--gold)}
+.phase-card-elim .phase-card-name{color:var(--blue)}
+.phase-card-desc{font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.phase-cta{display:inline-block;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;transition:var(--tr)}
+.phase-cta-grupos{background:var(--gold);color:#000}
+.phase-cta-elim{background:var(--blue);color:#fff}
+
+/* ── CAMBIAR FASE BTN ───────────────────────────────────────────────────────── */
+.cambiar-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-size:11px;font-weight:600;padding:6px 10px;border-radius:20px;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:4px}
+.cambiar-btn:hover{border-color:var(--gold2);color:var(--gold)}
+.cambiar-btn-elim:hover{border-color:rgba(74,158,255,.5);color:var(--blue)}
+
+/* ── ELIMINATORIA THEME ─────────────────────────────────────────────────────── */
+#app-elim .logo{color:var(--blue)}
+#app-elim .header{background:linear-gradient(135deg,#060610 0%,#0a1525 100%);border-bottom-color:rgba(74,158,255,.2)}
+#app-elim .nav{border-bottom-color:rgba(74,158,255,.15)}
+#app-elim .nav-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+#app-elim .section-title{color:var(--blue)}
+#app-elim .admin-btn{border-color:rgba(74,158,255,.4);color:var(--blue)}
+#app-elim .admin-btn:hover{background:var(--blue);color:#fff}
+#app-elim .loading-spinner{border-top-color:var(--blue)}
+
+/* ── BRACKET ────────────────────────────────────────────────────────────────── */
+.bracket-round-tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none;padding-bottom:2px}
+.bracket-round-tabs::-webkit-scrollbar{display:none}
+.bracket-round-tab{flex:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 11px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;transition:var(--tr);white-space:nowrap}
+.bracket-round-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.bracket-round-content{display:none}
+.bracket-round-content.active{display:block}
+.bracket-match{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px}
+.bracket-match.fin{border-left:3px solid var(--green)}
+.bracket-match.pend{border-left:3px solid rgba(74,158,255,.4)}
+.bracket-mheader{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bracket-mid{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
+.bracket-mdate{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace}
+.bracket-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
+.bracket-team{font-weight:600;font-size:13px;transition:var(--tr)}
+.bracket-team.home{text-align:right}
+.bracket-team.away{text-align:left}
+.bracket-team.winner{color:var(--gold)}
+.bracket-team.pend-team{color:var(--text3);font-style:italic;font-weight:400}
+.bracket-sbox{display:flex;gap:4px;align-items:center}
+.bracket-sc{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:16px;font-weight:500;min-width:36px;text-align:center;transition:var(--tr)}
+.bracket-sc.winner{border-color:var(--gold2);color:var(--gold)}
+.bracket-sep{color:var(--text3);font-size:12px}
+.bracket-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:4px}
+.bracket-res{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:20px}
+.bracket-res.normal{background:rgba(46,204,113,.15);color:var(--green)}
+.bracket-res.extra{background:rgba(74,158,255,.15);color:var(--blue)}
+.bracket-res.penales{background:rgba(155,89,182,.15);color:var(--purple)}
+.bracket-stat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:20px}
+.bracket-stat.fin{background:rgba(46,204,113,.12);color:var(--green)}
+.bracket-stat.pend{background:rgba(74,158,255,.1);color:var(--blue)}
+.bracket-extra{font-size:10px;color:var(--text2);padding:2px 6px;font-family:'DM Mono',monospace}
+.bracket-pen{font-size:10px;color:var(--purple);padding:2px 6px;font-family:'DM Mono',monospace}
+
+/* ── ADMIN ELIMINATORIA ─────────────────────────────────────────────────────── */
+.res-toggle{display:flex;gap:6px;margin-bottom:10px}
+.res-btn{flex:1;padding:9px 6px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr);text-align:center}
+.res-btn.active-normal{border-color:var(--green);background:rgba(46,204,113,.08);color:var(--green)}
+.res-btn.active-extra{border-color:var(--blue);background:rgba(74,158,255,.08);color:var(--blue)}
+.res-btn.active-penales{border-color:var(--purple);background:rgba(155,89,182,.08);color:var(--purple)}
+.et-inputs{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);animation:fadeIn .2s ease}
+.et-inputs.show{display:block}
+.et-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600}
+
+/* ELIM PAGES */
+.elim-page{display:none;padding:14px;animation:fadeIn .2s ease}
+.elim-page.active{display:block}
+
+
 </style>
 </head>
 <body>
 
-<!-- WELCOME MODAL -->
-<div class="welcome-overlay" id="welcome-overlay">
-  <div class="welcome-box">
-    <div class="welcome-ball">&#9917;</div>
-    <div class="welcome-title">POLLA MUNDIAL</div>
-    <div class="welcome-sub">FIFA World Cup 2026</div>
-    <div class="welcome-admin-msg" id="welcome-admin-msg"></div>
-    <div class="welcome-next" id="welcome-next">
-      <div class="welcome-next-lbl">Proximo partido</div>
-      <div id="welcome-match-info"><div class="loading-text" style="color:var(--text2)">Cargando...</div></div>
+<!-- PHASE SELECTOR -->
+<div class="phase-sel" id="phase-sel">
+  <div class="phase-inner">
+    <span class="phase-ball">🏆</span>
+    <div class="phase-title">POLLA MUNDIAL 2026</div>
+    <div class="phase-sub">FIFA World Cup · Seleccioná la fase</div>
+    <div class="phase-cards">
+      <div class="phase-card phase-card-grupos" onclick="selectPhase('grupos')">
+        <span class="phase-icon">⚽</span>
+        <span class="phase-badge phase-badge-done">Historial completo</span>
+        <div class="phase-card-name">FASE DE GRUPOS</div>
+        <div class="phase-card-desc">12 grupos · 72 partidos · Consulta los resultados y el ranking final de la fase de grupos.</div>
+        <span class="phase-cta phase-cta-grupos">Ver historial →</span>
+      </div>
+      <div class="phase-card phase-card-elim" onclick="selectPhase('eliminatoria')">
+        <span class="phase-icon">🏆</span>
+        <span class="phase-badge phase-badge-live"><span class="dot-live"></span> En curso</span>
+        <div class="phase-card-name">FASE ELIMINATORIA</div>
+        <div class="phase-card-desc">16avos · Octavos · Cuartos · Semis · Final · 32 partidos de eliminación directa.</div>
+        <span class="phase-cta phase-cta-elim">Entrar →</span>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- APP GRUPOS -->
+<div id="app-grupos" style="display:none">
+
+
     <button class="welcome-btn" onclick="closeWelcome()">Entrar al juego</button>
   </div>
 </div>
@@ -289,6 +398,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     <div class="logo">POLLA MUNDIAL<span>FIFA WORLD CUP 2026</span></div>
     <div class="header-right">
       <button class="refresh-btn" id="refresh-btn" onclick="refreshAll()"><span id="spin-icon">&#8635;</span> Actualizar</button>
+      <button class="cambiar-btn" onclick="backToSelector()" title="Cambiar de fase">← Cambiar</button>
       <button class="admin-btn" onclick="showAdminPage()">&#9881; Admin</button>
     </div>
   </div>
@@ -406,10 +516,166 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   </div>
 </div>
 
+</div><!-- end app-grupos -->
+
 <div class="toast" id="toast"></div>
 
+
+
+</body>
+</html>
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- APP ELIMINATORIA -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<div id="app-elim" style="display:none">
+
+<!-- HEADER ELIM -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">ELIMINATORIA 2026<span>FIFA WORLD CUP · KNOCKOUT STAGE</span></div>
+    <div class="header-right">
+      <button class="refresh-btn" id="elim-refresh-btn" onclick="refreshAllElim()"><span id="elim-spin">&#8635;</span> Actualizar</button>
+      <button class="cambiar-btn cambiar-btn-elim" onclick="backToSelector()">← Cambiar</button>
+      <button class="admin-btn" onclick="showAdminElim()">&#9881; Admin</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV ELIM -->
+<nav class="nav" id="elim-nav">
+  <button class="nav-btn active" onclick="showPageElim('elim-inicio',this)">Inicio</button>
+  <button class="nav-btn" onclick="showPageElim('elim-bracket',this)">Bracket</button>
+  <button class="nav-btn" onclick="showPageElim('elim-ranking',this)">Ranking</button>
+  <button class="nav-btn" onclick="showPageElim('elim-partidos',this)">Partidos</button>
+</nav>
+
+<!-- PAGE: ELIM INICIO -->
+<div id="elim-inicio" class="elim-page active">
+  <div class="section-title">INICIO</div>
+  <div class="section-sub">Fase Eliminatoria · Mundial 2026</div>
+  <div id="elim-inicio-content"><div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div></div>
+</div>
+
+<!-- PAGE: BRACKET -->
+<div id="elim-bracket" class="elim-page">
+  <div class="section-title">BRACKET</div>
+  <div class="section-sub">Cuadro eliminatorio completo</div>
+  <div id="elim-bracket-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
+</div>
+
+<!-- PAGE: RANKING ELIM -->
+<div id="elim-ranking" class="elim-page">
+  <div class="section-title">RANKING</div>
+  <div class="section-sub">Clasificación eliminatoria</div>
+  <div class="live-row" id="elim-lb-update"><div class="dot-live"></div><span>Conectando...</span></div>
+  <div id="elim-lb-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
+</div>
+
+<!-- PAGE: PARTIDOS ELIM -->
+<div id="elim-partidos" class="elim-page">
+  <div class="section-title">PARTIDOS</div>
+  <div class="section-sub">Fase Eliminatoria · 32 partidos</div>
+  <div id="elim-partidos-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
+</div>
+
+<!-- PAGE: ADMIN ELIM -->
+<div id="elim-admin" class="elim-page">
+  <div id="elim-admin-locked">
+    <div class="admin-locked">
+      <div class="admin-lock-icon">&#128274;</div>
+      <div class="admin-lock-title">PANEL ADMIN</div>
+      <div class="admin-lock-sub" style="color:var(--blue)">Eliminatoria 2026</div>
+      <div class="form-group"><input type="password" class="form-input" id="elim-admin-pass" placeholder="Contraseña" style="text-align:center;font-size:18px;letter-spacing:4px" onkeydown="if(event.key==='Enter')checkElimAdminPass()"></div>
+      <button class="btn btn-gold" onclick="checkElimAdminPass()">Ingresar</button>
+    </div>
+  </div>
+  <div id="elim-admin-content" style="display:none">
+    <div class="section-title">ADMIN ELIM</div>
+    <div class="section-sub">Panel de administración — Eliminatoria</div>
+
+    <!-- Mensaje participantes -->
+    <div class="admin-section">
+      <div class="admin-section-title">&#128226; Mensaje para Participantes</div>
+      <div class="form-group">
+        <label class="form-label">Mensaje (aparece al abrir la app)</label>
+        <textarea class="form-textarea" id="elim-admin-msg-input" placeholder="Escribí un aviso para el grupo..."></textarea>
+      </div>
+      <button class="btn btn-gold" onclick="guardarMensajeElim()">Publicar Mensaje</button>
+    </div>
+
+    <!-- Cargar resultado -->
+    <div class="admin-section">
+      <div class="admin-section-title">&#9917; Cargar Resultado</div>
+      <div class="form-group">
+        <label class="form-label">Seleccionar partido</label>
+        <select class="form-select" id="elim-partido-select" onchange="onElimPartidoChange()">
+          <option value="">-- Elegir partido pendiente --</option>
+        </select>
+      </div>
+      <div id="elim-score-section" style="display:none">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+          <span id="elim-team-a" style="font-weight:600;font-size:13px;flex:1;text-align:right;padding-right:8px;color:var(--blue)"></span>
+          <span style="color:var(--text3);font-size:12px;align-self:center">VS</span>
+          <span id="elim-team-b" style="font-weight:600;font-size:13px;flex:1;text-align:left;padding-left:8px;color:var(--blue)"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Goles 90 minutos</label>
+          <div class="score-inputs">
+            <input type="number" class="score-big" id="elim-g-a" min="0" max="20" placeholder="0">
+            <div class="score-vs">-</div>
+            <input type="number" class="score-big" id="elim-g-b" min="0" max="20" placeholder="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">¿Cómo se definió?</label>
+          <div class="res-toggle">
+            <button class="res-btn active-normal" data-res="Normal" onclick="setElimRes('Normal')">Normal</button>
+            <button class="res-btn" data-res="Extra" onclick="setElimRes('Extra')">Tiempo Extra</button>
+            <button class="res-btn" data-res="Penales" onclick="setElimRes('Penales')">Penales</button>
+          </div>
+        </div>
+        <div class="et-inputs" id="elim-et-inputs">
+          <div class="et-label">Goles Tiempo Extra</div>
+          <div class="score-inputs">
+            <input type="number" class="score-big" id="elim-et-a" min="0" max="10" placeholder="0" style="font-size:20px">
+            <div class="score-vs">-</div>
+            <input type="number" class="score-big" id="elim-et-b" min="0" max="10" placeholder="0" style="font-size:20px">
+          </div>
+          <div class="et-inputs show" id="elim-pen-inputs" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:none">
+            <div class="et-label" style="color:var(--purple)">Penales</div>
+            <div class="score-inputs">
+              <input type="number" class="score-big" id="elim-pen-a" min="0" max="20" placeholder="0" style="font-size:20px;border-color:rgba(155,89,182,.3)">
+              <div class="score-vs">-</div>
+              <input type="number" class="score-big" id="elim-pen-b" min="0" max="20" placeholder="0" style="font-size:20px;border-color:rgba(155,89,182,.3)">
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="guardarResultadoElim()" style="margin-top:12px">Guardar Resultado</button>
+      </div>
+    </div>
+
+    <!-- Configuración -->
+    <div class="admin-section">
+      <div class="admin-section-title">&#9881; Configuración Eliminatoria</div>
+      <div class="config-grid">
+        <div class="form-group"><label class="form-label">Pts selección</label><input type="number" class="form-input" id="ecfg-sel" value="2"></div>
+        <div class="form-group"><label class="form-label">Pts forma</label><input type="number" class="form-input" id="ecfg-forma" value="1"></div>
+        <div class="form-group"><label class="form-label">Multa selección (Gs.)</label><input type="number" class="form-input" id="ecfg-multa" value="2500"></div>
+        <div class="form-group"><label class="form-label">Multa forma (Gs.)</label><input type="number" class="form-input" id="ecfg-multa-forma" value="0"></div>
+      </div>
+      <button class="btn btn-gold" onclick="guardarConfigElim()">Guardar Configuración</button>
+    </div>
+
+    <button class="btn btn-red" onclick="cerrarAdminElim()" style="margin-top:4px">Cerrar sesión admin</button>
+  </div>
+</div><!-- end elim-admin page -->
+
+</div><!-- end app-elim -->
+
+
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbzpSpjVOI6s6Dx9y5LQ95lgD63KRiCFry_a6p4yjV3rAV3Z6Ptjv-jLddldp62-XPcP/exec';
+
+const API = 'https://script.google.com/macros/s/AKfycbzpSpjVOI6s6Dx9y5LQ95lgD63KRiCFry_a6p4yjV3rAV3Z6Ptjv-jLddldp62-XPcP/exec'; // grupos API (kept for compatibility)
 const APP_PASS = 'MUNDIAL2026'; // Contraseña general del grupo
 const ADMIN_PASS = '2026';
 const AVATARS = ['#e74c3c','#3498db','#2ecc71','#9b59b6','#f39c12','#1abc9c','#e67e22','#e91e63','#00bcd4','#8bc34a'];
@@ -1269,7 +1535,517 @@ function showToast(msg,type=''){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-initWelcome();
+// Phase app init
+// selectPhase is called by user from phase selector
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// POLLA MUNDIAL 2026 — APP v2 — ELIMINATORIA NUEVA JS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const API_GRUPOS = 'https://script.google.com/macros/s/AKfycbzpSpjVOI6s6Dx9y5LQ95lgD63KRiCFry_a6p4yjV3rAV3Z6Ptjv-jLddldp62-XPcP/exec';
+const API_ELIM   = 'https://script.google.com/macros/s/AKfycbwjStZYKTT9M3rovvJrue9qP7KgtxXg-nZpBwpyhQp8Te739V_0I5A3XTd_o-UM72Nj/exec';
+
+let cacheElim = {};
+let elimAdminUnlocked = false;
+let elimResolucion = 'Normal';
+let elimAdminMsg = localStorage.getItem('elimAdminMsg') || '';
+
+// ── API ELIM ──────────────────────────────────────────────────────────────────
+async function getElim(action) {
+  const r = await fetch(`${API_ELIM}?action=${action}`);
+  if (!r.ok) throw new Error('Error');
+  const data = await r.json();
+  cacheElim[action] = data;
+  return data;
+}
+
+async function postElim(payload) {
+  const r = await fetch(API_ELIM, {method:'POST', body:JSON.stringify({...payload, token:ADMIN_PASS})});
+  if (!r.ok) throw new Error('Error de red');
+  return await r.json();
+}
+
+// ── PHASE MANAGEMENT ──────────────────────────────────────────────────────────
+function selectPhase(phase) {
+  document.getElementById('phase-sel').classList.add('hide');
+  if (phase === 'grupos') {
+    document.getElementById('app-grupos').style.display = 'block';
+    showPage('inicio', document.querySelector('#app-grupos .nav-btn'));
+    renderInicio();
+  } else {
+    document.getElementById('app-elim').style.display = 'block';
+    showPageElim('elim-inicio', document.querySelector('#elim-nav .nav-btn'));
+  }
+}
+
+function backToSelector() {
+  document.getElementById('app-grupos').style.display = 'none';
+  document.getElementById('app-elim').style.display = 'none';
+  document.getElementById('phase-sel').classList.remove('hide');
+  if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+}
+
+// ── ELIM NAV & REFRESH ────────────────────────────────────────────────────────
+function showPageElim(name, btn) {
+  document.querySelectorAll('.elim-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#elim-nav .nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'elim-inicio')   renderElimiInicio();
+  if (name === 'elim-bracket')  renderBracket();
+  if (name === 'elim-ranking')  renderRankingElim();
+  if (name === 'elim-partidos') renderPartidosElim();
+  if (name === 'elim-admin' && elimAdminUnlocked) loadAdminElimData();
+}
+
+async function refreshAllElim() {
+  const spin = document.getElementById('elim-spin');
+  spin.classList.add('spinning');
+  cacheElim = {};
+  const active = document.querySelector('.elim-page.active');
+  if (active) {
+    try {
+      const name = active.id;
+      if (name === 'elim-inicio')   await renderElimiInicio();
+      else if (name === 'elim-bracket')  await renderBracket();
+      else if (name === 'elim-ranking')  await renderRankingElim();
+      else if (name === 'elim-partidos') await renderPartidosElim();
+      showToast('Datos actualizados', 'success');
+    } catch(e) { showToast('Error al actualizar', 'error'); }
+  }
+  spin.classList.remove('spinning');
+}
+
+// ── PARSEAR FECHA/HORA DE BRACKET ─────────────────────────────────────────────
+function parseFechaHoraElim(fecha, hora) {
+  const MESES = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  let day = 0, month = 0, hh = 0, mm = 0;
+  const fStr = String(fecha || '');
+  if (fStr.includes('/')) {
+    const p = fStr.split('/'); day = parseInt(p[0]); month = parseInt(p[1]);
+  } else if (fStr.includes('-') && fStr.length > 5) {
+    const p = fStr.split('-'); day = parseInt(p[2]); month = parseInt(p[1]);
+  }
+  const hStr = String(hora || '');
+  if (hStr.includes(':')) {
+    const p = hStr.split(':'); hh = parseInt(p[0]); mm = parseInt(p[1]) || 0;
+  }
+  const fechaLegible = day > 0 ? `${day} ${MESES[month] || ''}` : '--';
+  const horaLegible = hStr || '--';
+  const target = day > 0 ? new Date(2026, month - 1, day, hh, mm, 0) : new Date(Date.now() + 86400000);
+  return { fechaLegible, horaLegible, target };
+}
+
+// ── ELIM INICIO ───────────────────────────────────────────────────────────────
+async function renderElimiInicio() {
+  const el = document.getElementById('elim-inicio-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div>';
+  try {
+    const [bracketRaw, lbRaw] = await Promise.all([
+      cacheElim.bracket   || getElim('bracket'),
+      cacheElim.leaderboard || getElim('leaderboard')
+    ]);
+    const bracket = Array.isArray(bracketRaw) ? bracketRaw : [];
+    const lb = (Array.isArray(lbRaw) ? lbRaw : [])
+      .filter(r => r.Nombre && r.Nombre !== '')
+      .sort((a, b) => (Number(b.Pts_Total)||0) - (Number(a.Pts_Total)||0) || (Number(b.Aciertos)||0) - (Number(a.Aciertos)||0));
+
+    const jugados = bracket.filter(m => m.Estado === 'Finalizado').length;
+    const nextMatch = bracket.find(m => m.Estado !== 'Finalizado' && m.Equipo_A && m.Equipo_A !== 'Pendiente' && m.Equipo_B && m.Equipo_B !== 'Pendiente');
+    const top3 = lb.slice(0, 3);
+    const medals = ['1°', '2°', '3°'];
+    const medalColors = ['var(--gold)', 'var(--silver)', 'var(--bronze)'];
+    let html = '';
+
+    if (elimAdminMsg) {
+      html += `<div class="admin-msg-banner show"><strong>Aviso del organizador</strong>${elimAdminMsg}</div>`;
+    }
+
+    if (nextMatch) {
+      const { fechaLegible, horaLegible, target } = parseFechaHoraElim(nextMatch.Fecha, nextMatch.Hora_PY);
+      html += `<div class="cd-banner" style="border-color:var(--blue)">
+        <div class="cd-banner-lbl" style="color:var(--blue)">${nextMatch.P_Oficial || ''} · ${nextMatch.Ronda} · Próximo partido</div>
+        <div class="cd-banner-match">
+          <div class="cd-banner-team h">${nextMatch.Equipo_A}</div>
+          <div class="cd-banner-vs">VS</div>
+          <div class="cd-banner-team a">${nextMatch.Equipo_B}</div>
+        </div>
+        <div style="font-size:10px;color:var(--text2);text-align:center;margin-bottom:8px">${fechaLegible} · ${horaLegible}</div>
+        <div class="cd-inline">
+          <div class="cd-chip"><div class="cd-chip-val" id="ecd-d" style="color:var(--blue)">--</div><div class="cd-chip-lbl">Dias</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="ecd-h" style="color:var(--blue)">--</div><div class="cd-chip-lbl">Horas</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="ecd-m" style="color:var(--blue)">--</div><div class="cd-chip-lbl">Min</div></div>
+          <div class="cd-chip"><div class="cd-chip-val" id="ecd-s" style="color:var(--blue)">--</div><div class="cd-chip-lbl">Seg</div></div>
+        </div>
+      </div>`;
+      startCountdown(target, 'ecd-d', 'ecd-h', 'ecd-m', 'ecd-s');
+    } else {
+      html += '<div class="info-box"><strong>Eliminatoria en curso</strong>Cargá resultados desde el panel Admin para actualizar el ranking.</div>';
+    }
+
+    html += `<div class="stat-grid">
+      <div class="stat-card"><div class="stat-card-val c-blue">${lb.length}</div><div class="stat-card-lbl">Participantes</div></div>
+      <div class="stat-card"><div class="stat-card-val c-green">${jugados}/32</div><div class="stat-card-lbl">Partidos jugados</div></div>
+      <div class="stat-card"><div class="stat-card-val c-blue" style="font-size:14px">${lb[0] ? lb[0].Nombre.split(' ')[0] : '--'}</div><div class="stat-card-lbl">Líder</div></div>
+      <div class="stat-card"><div class="stat-card-val c-gold" style="font-size:14px">${lb[0] ? (lb[0].Pts_Total||0)+' pts' : '--'}</div><div class="stat-card-lbl">Puntaje máximo</div></div>
+    </div>`;
+
+    if (top3.length > 0) {
+      html += '<div class="section-title" style="font-size:17px;margin:14px 0 8px">TOP 3</div>';
+      top3.forEach((p, i) => {
+        const c = AVATARS[i];
+        html += `<div class="lb-card pos-${i+1}-card">
+          <div class="lb-row">
+            <div class="lb-pos" style="color:${medalColors[i]}">${medals[i]}</div>
+            <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44">${(p.Nombre||'?').charAt(0)}</div>
+            <div class="lb-info"><div class="lb-name">${p.Nombre}</div><div class="lb-detail">${p.Aciertos||0} aciertos · Multa: ${fmtGs(p.Multa_Total||0)}</div></div>
+            <div class="lb-pts"><div class="lb-pts-val" style="color:var(--blue)">${p.Pts_Total||0}</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+        </div>`;
+      });
+    } else {
+      html += '<div class="info-box">El ranking aparece aquí una vez que haya resultados cargados.</div>';
+    }
+
+    el.innerHTML = html;
+  } catch(e) { el.innerHTML = errHTML('renderElimiInicio'); }
+}
+
+// ── BRACKET ───────────────────────────────────────────────────────────────────
+async function renderBracket() {
+  const el = document.getElementById('elim-bracket-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
+  try {
+    const raw = cacheElim.bracket || await getElim('bracket');
+    cacheElim.bracket = raw;
+    const bracket = Array.isArray(raw) ? raw : [];
+    const RONDAS = ['16avos', '8avos', 'Cuartos', 'Semis', '3ER', 'Final'];
+    const byRonda = {};
+    RONDAS.forEach(r => byRonda[r] = []);
+    bracket.forEach(m => { if (m.Ronda && byRonda[m.Ronda]) byRonda[m.Ronda].push(m); });
+
+    const tabsHtml = RONDAS.map((r, i) => {
+      const total = byRonda[r].length;
+      const done = byRonda[r].filter(m => m.Estado === 'Finalizado').length;
+      return `<div class="bracket-round-tab ${i===0?'active':''}" onclick="switchBracketRound('${r}',this)">${r} <span style="font-size:9px;opacity:.65">${done}/${total}</span></div>`;
+    }).join('');
+
+    const contentHtml = RONDAS.map((r, i) => {
+      const matches = byRonda[r];
+      const html = matches.length > 0
+        ? matches.map(m => renderBracketMatch(m)).join('')
+        : '<div class="info-box">Sin partidos en esta ronda todavía.</div>';
+      return `<div class="bracket-round-content ${i===0?'active':''}" id="bround-${r}">${html}</div>`;
+    }).join('');
+
+    el.innerHTML = `<div class="bracket-round-tabs">${tabsHtml}</div>${contentHtml}`;
+  } catch(e) { el.innerHTML = errHTML('renderBracket'); }
+}
+
+function renderBracketMatch(m) {
+  const fin = m.Estado === 'Finalizado';
+  const eqA = m.Equipo_A || 'Pendiente';
+  const eqB = m.Equipo_B || 'Pendiente';
+  const isPendA = !m.Equipo_A || m.Equipo_A === 'Pendiente';
+  const isPendB = !m.Equipo_B || m.Equipo_B === 'Pendiente';
+  const gA = fin ? (m.Goles_A_90 !== '' ? m.Goles_A_90 : '0') : '--';
+  const gB = fin ? (m.Goles_B_90 !== '' ? m.Goles_B_90 : '0') : '--';
+  const aWins = fin && m.Ganador && m.Ganador === eqA;
+  const bWins = fin && m.Ganador && m.Ganador === eqB;
+  const res = m.Resolucion || '';
+  const hasET  = fin && m.Goles_A_ET !== '' && m.Goles_A_ET !== undefined && m.Goles_A_ET !== null && m.Goles_A_ET !== 0;
+  const hasPen = fin && m.Penales_A !== '' && m.Penales_A !== undefined && m.Penales_A !== null;
+  const { fechaLegible, horaLegible } = parseFechaHoraElim(m.Fecha, m.Hora_PY);
+
+  return `<div class="bracket-match ${fin?'fin':'pend'}">
+    <div class="bracket-mheader">
+      <span class="bracket-mid">${m.P_Oficial||''} · P${m.N_Partido||''}</span>
+      <span class="bracket-mdate">${fechaLegible} ${horaLegible}</span>
+    </div>
+    <div class="bracket-teams">
+      <div class="bracket-team home ${aWins?'winner':''} ${isPendA?'pend-team':''}">${eqA}</div>
+      <div class="bracket-sbox">
+        <div class="bracket-sc ${aWins?'winner':''}">${gA}</div>
+        <div class="bracket-sep">:</div>
+        <div class="bracket-sc ${bWins?'winner':''}">${gB}</div>
+      </div>
+      <div class="bracket-team away ${bWins?'winner':''} ${isPendB?'pend-team':''}">${eqB}</div>
+    </div>
+    <div class="bracket-foot">
+      <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+        ${fin && res ? `<div class="bracket-res ${res.toLowerCase()}">${res}</div>` : ''}
+        ${hasET  ? `<div class="bracket-extra">ET: ${m.Goles_A_ET}-${m.Goles_B_ET}</div>` : ''}
+        ${hasPen ? `<div class="bracket-pen">Pen: ${m.Penales_A}-${m.Penales_B}</div>` : ''}
+      </div>
+      <div class="bracket-stat ${fin?'fin':'pend'}">${fin?'Finalizado':'Pendiente'}</div>
+    </div>
+  </div>`;
+}
+
+function switchBracketRound(round, btn) {
+  document.querySelectorAll('.bracket-round-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bracket-round-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const el = document.getElementById(`bround-${round}`);
+  if (el) el.classList.add('active');
+}
+
+// ── RANKING ELIM ──────────────────────────────────────────────────────────────
+async function renderRankingElim() {
+  const el = document.getElementById('elim-lb-content');
+  const upEl = document.getElementById('elim-lb-update');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
+  try {
+    const raw = cacheElim.leaderboard || await getElim('leaderboard');
+    cacheElim.leaderboard = raw;
+    const lb = (Array.isArray(raw) ? raw : [])
+      .filter(r => r.Nombre && r.Nombre !== '')
+      .sort((a,b) => (Number(b.Pts_Total)||0) - (Number(a.Pts_Total)||0) || (Number(b.Aciertos)||0) - (Number(a.Aciertos)||0));
+
+    upEl.innerHTML = `<div class="dot-live"></div><span>Actualizado ${fmtTime(new Date())}</span>`;
+    const maxPts = Math.max(...lb.map(r => Number(r.Pts_Total)||0), 1);
+
+    if (lb.length === 0) {
+      el.innerHTML = '<div class="info-box">El ranking aparece aquí cuando haya resultados y respuestas del form cargados.</div>';
+      return;
+    }
+
+    el.innerHTML = lb.map((p, i) => {
+      const pos = i + 1;
+      const pts   = Number(p.Pts_Total)   || 0;
+      const ac    = Number(p.Aciertos)    || 0;
+      const err   = Number(p.Errados)     || 0;
+      const multa = Number(p.Multa_Total) || 0;
+      const pct   = Math.round((pts / maxPts) * 100);
+      const c     = AVATARS[i % AVATARS.length];
+      const cardClass = pos===1?'pos-1-card':pos===2?'pos-2-card':pos===3?'pos-3-card':'';
+      const posClass  = pos===1?'pos-1':pos===2?'pos-2':pos===3?'pos-3':'';
+      const pts16 = Number(p.Pts_16avos)||0;
+      const pts8  = Number(p.Pts_8avos)||0;
+      const ptsC  = Number(p.Pts_Cuartos)||0;
+      const ptsS  = Number(p.Pts_Semis)||0;
+      const pts3  = Number(p.Pts_3er)||0;
+      const ptsF  = Number(p.Pts_Final)||0;
+      return `<div class="lb-card ${cardClass}" onclick="toggleDetail(this)">
+        <div class="lb-row">
+          <div class="lb-pos ${posClass}">${pos}</div>
+          <div class="lb-avatar" style="background:${c}22;color:${c};border:1px solid ${c}44">${(p.Nombre||'?').charAt(0)}</div>
+          <div class="lb-info"><div class="lb-name">${p.Nombre}</div><div class="lb-detail">${ac} aciertos · ${err} errados</div></div>
+          <div class="lb-pts"><div class="lb-pts-val" style="color:var(--blue)">${pts}</div><div class="lb-pts-lbl">pts</div></div>
+        </div>
+        <div class="lb-progress"><div class="lb-progress-bar" style="width:${pct}%;background:linear-gradient(90deg,var(--blue),#2266cc)"></div></div>
+        <div class="lb-detail-panel">
+          <div class="detail-grid">
+            <div class="detail-item"><div class="detail-val" style="color:var(--blue)">${pts}</div><div class="detail-lbl">Total pts</div></div>
+            <div class="detail-item"><div class="detail-val c-green">${ac}</div><div class="detail-lbl">Aciertos</div></div>
+            <div class="detail-item"><div class="detail-val c-red">${err}</div><div class="detail-lbl">Errados</div></div>
+          </div>
+          ${(pts16||pts8||ptsC||ptsS||pts3||ptsF)?`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px">
+            ${pts16?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${pts16}</div><div class="detail-lbl">16avos</div></div>`:''}
+            ${pts8?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${pts8}</div><div class="detail-lbl">8avos</div></div>`:''}
+            ${ptsC?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${ptsC}</div><div class="detail-lbl">Cuartos</div></div>`:''}
+            ${ptsS?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${ptsS}</div><div class="detail-lbl">Semis</div></div>`:''}
+            ${pts3?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${pts3}</div><div class="detail-lbl">3er Puesto</div></div>`:''}
+            ${ptsF?`<div class="detail-item"><div class="detail-val" style="font-size:12px;color:var(--blue)">${ptsF}</div><div class="detail-lbl">Final</div></div>`:''}
+          </div>`:``}
+          <div class="multa-chip"><span>Multa acumulada</span><span>${fmtGs(multa)}</span></div>
+        </div>
+      </div>`;
+    }).join('');
+    el.innerHTML += `<button class="share-btn" style="background:var(--blue);margin-top:8px" onclick="shareRankingElim()">Compartir Ranking por WhatsApp</button>`;
+  } catch(e) { el.innerHTML = errHTML('renderRankingElim'); }
+}
+
+async function shareRankingElim() {
+  try {
+    const raw = cacheElim.leaderboard || await getElim('leaderboard');
+    const lb = (Array.isArray(raw) ? raw : []).filter(r => r.Nombre && r.Nombre !== '').sort((a,b)=>(Number(b.Pts_Total)||0)-(Number(a.Pts_Total)||0));
+    let txt = 'POLLA MUNDIAL 2026 - ELIMINATORIA\n';
+    txt += 'Ranking ' + fmtTime(new Date()) + '\n--------------------------------\n\n';
+    lb.forEach((p,i)=>{ txt += `${i+1}. ${p.Nombre} - ${p.Pts_Total||0} pts\n   Aciertos: ${p.Aciertos||0}  Errados: ${p.Errados||0}  Multa: ${fmtGs(p.Multa_Total||0)}\n\n`; });
+    txt += '--------------------------------\nEliminatoria en curso';
+    window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+  } catch(e) { showToast('Error al compartir','error'); }
+}
+
+// ── PARTIDOS ELIM ─────────────────────────────────────────────────────────────
+async function renderPartidosElim() {
+  const el = document.getElementById('elim-partidos-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
+  try {
+    const raw = cacheElim.bracket || await getElim('bracket');
+    cacheElim.bracket = raw;
+    const bracket = Array.isArray(raw) ? raw : [];
+    const jugados = bracket.filter(m => m.Estado === 'Finalizado').length;
+
+    const byFecha = {};
+    bracket.forEach(m => {
+      const k = m.Fecha || 'Sin fecha';
+      if (!byFecha[k]) byFecha[k] = [];
+      byFecha[k].push(m);
+    });
+
+    let html = `<div class="info-box"><strong>${jugados}/32 partidos jugados</strong>Horarios en hora de Paraguay</div>`;
+    Object.entries(byFecha).forEach(([fecha, matches]) => {
+      const { fechaLegible } = parseFechaHoraElim(fecha, null);
+      html += `<div class="match-group-title">${fechaLegible || fecha}</div>`;
+      matches.forEach(m => {
+        const fin = m.Estado === 'Finalizado';
+        const aWins = fin && m.Ganador === m.Equipo_A;
+        const bWins = fin && m.Ganador === m.Equipo_B;
+        const res = m.Resolucion || '';
+        const { horaLegible } = parseFechaHoraElim(m.Fecha, m.Hora_PY);
+        html += `<div class="match-card ${fin?'played':'pending'}">
+          <div class="match-header">
+            <div class="match-grp">${m.P_Oficial||''} · ${m.Ronda||''}</div>
+            <div class="match-date">${horaLegible}</div>
+          </div>
+          <div class="match-teams">
+            <div class="team-name team-home ${aWins?'c-gold':''}">${m.Equipo_A||'Pendiente'}</div>
+            <div class="score-box">
+              <div class="score ${aWins?'winner':''}">${fin?m.Goles_A_90:'--'}</div>
+              <div class="score-sep">:</div>
+              <div class="score ${bWins?'winner':''}">${fin?m.Goles_B_90:'--'}</div>
+            </div>
+            <div class="team-name team-away ${bWins?'c-gold':''}">${m.Equipo_B||'Pendiente'}</div>
+          </div>
+          ${fin && res !== 'Normal' ? `<div style="text-align:center;margin-top:5px;font-size:10px;color:var(--text2)">${res}${m.Goles_A_ET!==''&&m.Goles_A_ET!==undefined?` · ET: ${m.Goles_A_ET}-${m.Goles_B_ET}`:''}${m.Penales_A!==''&&m.Penales_A!==undefined?` · Pen: ${m.Penales_A}-${m.Penales_B}`:''}</div>` : ''}
+          <div class="match-status"><div class="status-pill ${fin?'status-played':'status-pending'}">${fin?'Finalizado':'Pendiente'}</div></div>
+        </div>`;
+      });
+    });
+    el.innerHTML = html;
+  } catch(e) { el.innerHTML = errHTML('renderPartidosElim'); }
+}
+
+// ── ADMIN ELIM ────────────────────────────────────────────────────────────────
+function showAdminElim() { showPageElim('elim-admin', null); }
+
+function checkElimAdminPass() {
+  const pass = document.getElementById('elim-admin-pass').value;
+  if (pass === ADMIN_PASS) {
+    elimAdminUnlocked = true;
+    document.getElementById('elim-admin-locked').style.display = 'none';
+    document.getElementById('elim-admin-content').style.display = 'block';
+    document.getElementById('elim-admin-msg-input').value = elimAdminMsg;
+    loadAdminElimData();
+    showToast('Acceso concedido', 'success');
+  } else { showToast('Contraseña incorrecta', 'error'); document.getElementById('elim-admin-pass').value = ''; }
+}
+
+function cerrarAdminElim() {
+  elimAdminUnlocked = false;
+  document.getElementById('elim-admin-locked').style.display = 'block';
+  document.getElementById('elim-admin-content').style.display = 'none';
+  document.getElementById('elim-admin-pass').value = '';
+  showPageElim('elim-inicio', document.querySelector('#elim-nav .nav-btn'));
+  showToast('Sesión cerrada', 'success');
+}
+
+function guardarMensajeElim() {
+  const msg = document.getElementById('elim-admin-msg-input').value.trim();
+  elimAdminMsg = msg;
+  localStorage.setItem('elimAdminMsg', msg);
+  showToast(msg ? 'Mensaje publicado' : 'Mensaje eliminado', 'success');
+}
+
+async function loadAdminElimData() {
+  try {
+    cacheElim = {};
+    const bracketRaw = await getElim('bracket');
+    cacheElim.bracket = bracketRaw;
+    const bracket = Array.isArray(bracketRaw) ? bracketRaw : [];
+    const pending = bracket.filter(m => m.Estado !== 'Finalizado' && m.Equipo_A && m.Equipo_A !== 'Pendiente' && m.Equipo_B && m.Equipo_B !== 'Pendiente');
+    const sel = document.getElementById('elim-partido-select');
+    sel.innerHTML = '<option value="">-- Elegir partido pendiente --</option>' +
+      pending.map(m => {
+        const { fechaLegible, horaLegible } = parseFechaHoraElim(m.Fecha, m.Hora_PY);
+        return `<option value="${m.ID}|${m.Equipo_A}|${m.Equipo_B}">[${m.P_Oficial||'P?'}] ${fechaLegible} ${horaLegible} — ${m.Equipo_A} vs ${m.Equipo_B}</option>`;
+      }).join('');
+    // Also load config
+    try {
+      const cfgRaw = await getElim('config');
+      if (cfgRaw && cfgRaw['16avos']) {
+        document.getElementById('ecfg-sel').value   = cfgRaw['16avos'].Pts_Sel   || 2;
+        document.getElementById('ecfg-forma').value = cfgRaw['16avos'].Pts_Forma || 1;
+        document.getElementById('ecfg-multa').value = cfgRaw['16avos'].Multa_Sel || 2500;
+        document.getElementById('ecfg-multa-forma').value = cfgRaw['16avos'].Multa_Forma || 0;
+      }
+    } catch(_) {}
+  } catch(e) { showToast('Error cargando datos', 'error'); }
+}
+
+function onElimPartidoChange() {
+  const val = document.getElementById('elim-partido-select').value;
+  const sec = document.getElementById('elim-score-section');
+  if (!val) { sec.style.display = 'none'; return; }
+  const parts = val.split('|');
+  document.getElementById('elim-team-a').textContent = parts[1] || '';
+  document.getElementById('elim-team-b').textContent = parts[2] || '';
+  ['elim-g-a','elim-g-b','elim-et-a','elim-et-b','elim-pen-a','elim-pen-b'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  setElimRes('Normal');
+  sec.style.display = 'block';
+}
+
+function setElimRes(res) {
+  elimResolucion = res;
+  document.querySelectorAll('.res-btn').forEach(b => { b.className = 'res-btn'; });
+  const activeClass = res === 'Normal' ? 'active-normal' : res === 'Extra' ? 'active-extra' : 'active-penales';
+  const btn = document.querySelector(`[data-res="${res}"]`);
+  if (btn) btn.classList.add(activeClass);
+  const etEl  = document.getElementById('elim-et-inputs');
+  const penEl = document.getElementById('elim-pen-inputs');
+  if (etEl)  etEl.style.display  = res !== 'Normal' ? 'block' : 'none';
+  if (penEl) penEl.style.display = res === 'Penales' ? 'block' : 'none';
+}
+
+async function guardarResultadoElim() {
+  const val = document.getElementById('elim-partido-select').value;
+  if (!val) { showToast('Seleccioná un partido', 'error'); return; }
+  const matchId = parseInt(val.split('|')[0]);
+  const gA = document.getElementById('elim-g-a').value;
+  const gB = document.getElementById('elim-g-b').value;
+  if (gA === '' || gB === '') { showToast('Ingresá los goles de 90 min', 'error'); return; }
+  if (elimResolucion === 'Penales') {
+    if (!document.getElementById('elim-pen-a').value || !document.getElementById('elim-pen-b').value) {
+      showToast('Ingresá los penales', 'error'); return;
+    }
+  }
+  const payload = {
+    action: 'resultado', matchId,
+    golesA90: parseInt(gA), golesB90: parseInt(gB),
+    resolucion: elimResolucion,
+    golesAET: elimResolucion !== 'Normal' ? parseInt(document.getElementById('elim-et-a').value || 0) : null,
+    golesBET: elimResolucion !== 'Normal' ? parseInt(document.getElementById('elim-et-b').value || 0) : null,
+    penalesA: elimResolucion === 'Penales' ? parseInt(document.getElementById('elim-pen-a').value || 0) : null,
+    penalesB: elimResolucion === 'Penales' ? parseInt(document.getElementById('elim-pen-b').value || 0) : null,
+  };
+  try {
+    const res = await postElim(payload);
+    if (res.ok) {
+      showToast(`✓ ${res.ganador} clasifica · ${res.resolucion}`, 'success');
+      cacheElim = {};
+      document.getElementById('elim-score-section').style.display = 'none';
+      await loadAdminElimData();
+    } else { showToast(res.error || 'Error', 'error'); }
+  } catch(e) { showToast('Error de conexión', 'error'); }
+}
+
+async function guardarConfigElim() {
+  const rondas = ['16avos','8avos','Cuartos','Semis','3ER','Final'];
+  const sel  = parseInt(document.getElementById('ecfg-sel').value)   || 2;
+  const forma= parseInt(document.getElementById('ecfg-forma').value) || 1;
+  const multa= parseInt(document.getElementById('ecfg-multa').value) || 2500;
+  const mf   = parseInt(document.getElementById('ecfg-multa-forma').value) || 0;
+  try {
+    await Promise.all(rondas.map(r => postElim({action:'config', ronda:r, pts_seleccion:sel, pts_forma:forma, multa_seleccion:multa, multa_forma:mf})));
+    showToast('Configuración guardada para todas las rondas', 'success');
+    cacheElim = {};
+  } catch(e) { showToast('Error al guardar', 'error'); }
+}
+
+
 </script>
 </body>
 </html>
