@@ -529,6 +529,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   <button class="nav-btn active" onclick="showPageElim('elim-inicio',this)">Inicio</button>
   <button class="nav-btn" onclick="showPageElim('elim-bracket',this)">Bracket</button>
   <button class="nav-btn" onclick="showPageElim('elim-ranking',this)">Ranking</button>
+  <button class="nav-btn" onclick="showPageElim('elim-apuestas',this)">Apuestas</button>
   <button class="nav-btn" onclick="showPageElim('elim-partidos',this)">Partidos</button>
 </nav>
 
@@ -555,6 +556,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   <div class="section-title">PARTIDOS</div>
   <div class="section-sub">Fase Eliminatoria · 32 partidos</div>
   <div id="elim-partidos-content"><div class="loading-state"><div class="loading-spinner"></div></div></div>
+</div>
+
+<div id="elim-apuestas" class="elim-page">
+  <div class="section-title">APUESTAS</div>
+  <div class="section-sub">Predicciones por participante</div>
+  <div id="elim-apuestas-content">
+    <div class="loading-state"><div class="loading-spinner"></div></div>
+  </div>
 </div>
 
 <div id="elim-admin" class="elim-page">
@@ -1523,11 +1532,11 @@ let elimAdminUnlocked = false;
 let elimResolucion = 'Normal';
 let elimAdminMsg = localStorage.getItem('elimAdminMsg') || '';
 
-async function getElim(action) {
-  const r = await fetch(`${API_ELIM}?action=${action}`);
+async function getElim(action, extra='') {
+  const r = await fetch(`${API_ELIM}?action=${action}${extra}`);
   if (!r.ok) throw new Error('Error');
   const data = await r.json();
-  cacheElim[action] = data;
+  cacheElim[action+extra] = data;
   return data;
 }
 
@@ -1570,6 +1579,7 @@ function showPageElim(name, btn) {
   if (name === 'elim-inicio')   renderElimiInicio();
   if (name === 'elim-bracket')  renderBracket();
   if (name === 'elim-ranking')  renderRankingElim();
+  if (name === 'elim-apuestas') renderApuestasElim();
   if (name === 'elim-partidos') renderPartidosElim();
   if (name === 'elim-admin' && elimAdminUnlocked) loadAdminElimData();
 }
@@ -1597,11 +1607,20 @@ function parseFechaHoraElim(fecha, hora) {
   let day=0, month=0, hh=0, mm=0;
   const fStr = String(fecha||'');
   if (fStr.includes('/')) { const p=fStr.split('/'); day=parseInt(p[0]); month=parseInt(p[1]); }
-  else if (fStr.length>5 && fStr.includes('-')) { const p=fStr.split('-'); day=parseInt(p[2]); month=parseInt(p[1]); }
+  else if (fStr.length>5 && fStr.includes('-') && !fStr.includes('T')) { const p=fStr.split('-'); day=parseInt(p[2]); month=parseInt(p[1]); }
   const hStr = String(hora||'');
-  if (hStr.includes(':')) { const p=hStr.split(':'); hh=parseInt(p[0]); mm=parseInt(p[1])||0; }
+  let horaLegible = '--';
+  if (hStr.includes('T')) {
+    // Sheets serializa tiempos como ISO Date — usar getHours() para que el
+    // browser del usuario aplique su timezone local (Paraguay UTC-4) automáticamente
+    const d = new Date(hStr);
+    hh = d.getHours(); mm = d.getMinutes();
+    horaLegible = `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+  } else if (hStr.includes(':')) {
+    const p=hStr.split(':'); hh=parseInt(p[0]); mm=parseInt(p[1])||0;
+    horaLegible = `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+  }
   const fechaLegible = day>0 ? `${day} ${MESES[month]||''}` : '--';
-  const horaLegible  = hStr || '--';
   const target = day>0 ? new Date(2026, month-1, day, hh, mm, 0) : new Date(Date.now()+86400000);
   return {fechaLegible, horaLegible, target};
 }
@@ -1954,6 +1973,164 @@ async function guardarConfigElim(){
     showToast('Configuración guardada','success');cacheElim={};
   } catch(e){showToast('Error al guardar','error');}
 }
+
+// ── APUESTAS ELIMINATORIA ─────────────────────────────────────────────────────
+async function renderApuestasElim() {
+  const el = document.getElementById('elim-apuestas-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div>';
+  try {
+    const [bracket, resp, puntos] = await Promise.all([
+      cacheElim['bracket'] || getElim('bracket'),
+      cacheElim['respuestas&ronda=16avos'] || getElim('respuestas','&ronda=16avos'),
+      cacheElim['puntos&ronda=16avos']     || getElim('puntos','&ronda=16avos')
+    ]);
+    cacheElim['bracket'] = bracket;
+    cacheElim['respuestas&ronda=16avos'] = resp;
+    cacheElim['puntos&ronda=16avos'] = puntos;
+
+    const participants = [...new Set(
+      (Array.isArray(resp)?resp:[]).map(r => r['Nombre completo']||r['Nombre']||'').filter(Boolean)
+    )].sort();
+
+    el.innerHTML = `
+      <div class="form-group">
+        <select class="form-select" id="apuestas-sel" onchange="showApuestasParticipante()">
+          <option value="">-- Seleccionar participante --</option>
+          ${participants.map(p=>`<option value="${p}">${p}</option>`).join('')}
+        </select>
+      </div>
+      <div id="apuestas-ronda-tabs" style="margin-bottom:10px">
+        <div class="bracket-round-tab active" onclick="switchApuestasRonda('16avos',this)">16avos</div>
+      </div>
+      <div id="apuestas-detail"></div>
+    `;
+  } catch(e) { el.innerHTML = errHTML('renderApuestasElim'); }
+}
+
+function switchApuestasRonda(ronda, btn) {
+  document.querySelectorAll('#apuestas-ronda-tabs .bracket-round-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  showApuestasParticipante(ronda);
+}
+
+async function showApuestasParticipante(ronda) {
+  ronda = ronda || '16avos';
+  const nombre = document.getElementById('apuestas-sel') && document.getElementById('apuestas-sel').value;
+  const el = document.getElementById('apuestas-detail');
+  if (!nombre || !el) return;
+
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
+  try {
+    const [bracket, resp, puntos] = await Promise.all([
+      cacheElim['bracket'] || getElim('bracket'),
+      cacheElim[`respuestas&ronda=${ronda}`] || getElim('respuestas',`&ronda=${ronda}`),
+      cacheElim[`puntos&ronda=${ronda}`]     || getElim('puntos',`&ronda=${ronda}`)
+    ]);
+
+    // Find last response for this participant
+    const allResp = Array.isArray(resp) ? resp : [];
+    const lastResp = [...allResp].reverse().find(r => (r['Nombre completo']||r['Nombre']||'') === nombre);
+    const participantPuntos = (Array.isArray(puntos)?puntos:[]).find(p => p['Nombre'] === nombre);
+
+    if (!lastResp) {
+      el.innerHTML = `<div class="info-box">Sin respuesta del formulario para <strong>${nombre}</strong> en esta ronda.</div>`;
+      return;
+    }
+
+    // Values by position: [timestamp, email, nombre, sel_P1, forma_P1, sel_P2, forma_P2, ...]
+    const vals = Object.values(lastResp);
+
+    // Get ronda matches from bracket
+    const RONDA_MAP = {
+      '16avos': {filaBase:1,  total:16},
+      '8avos':  {filaBase:17, total:8},
+      'Cuartos':{filaBase:25, total:4},
+      'Semis':  {filaBase:29, total:2},
+      '3ER':    {filaBase:31, total:1},
+      'Final':  {filaBase:32, total:1}
+    };
+    const rondaInfo = RONDA_MAP[ronda] || RONDA_MAP['16avos'];
+    const matches = (Array.isArray(bracket)?bracket:[])
+      .filter(m => m.Ronda === ronda)
+      .sort((a,b) => Number(a.N_Partido)-Number(b.N_Partido));
+
+    // Summary stats
+    let totalPts=0, aciertos=0, errados=0, multa=0;
+    if (participantPuntos) {
+      totalPts = Number(participantPuntos['Pts_Total'])||0;
+      aciertos  = Number(participantPuntos['Aciertos_Sel'])||0;
+      errados   = Number(participantPuntos['Errados_Sel'])||0;
+      multa     = Number(participantPuntos['Multa'])||0;
+    }
+
+    let html = `<div class="cd-banner" style="border-color:var(--blue);margin-bottom:10px;padding:12px 14px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center">
+        <div><div style="font-size:20px;font-weight:600;color:var(--blue)">${totalPts}</div><div style="font-size:10px;color:var(--text2)">Puntos</div></div>
+        <div><div style="font-size:20px;font-weight:600;color:var(--green)">${aciertos}</div><div style="font-size:10px;color:var(--text2)">Aciertos</div></div>
+        <div><div style="font-size:20px;font-weight:600;color:var(--red)">${errados}</div><div style="font-size:10px;color:var(--text2)">Errados</div></div>
+        <div><div style="font-size:14px;font-weight:600;color:var(--red)">${fmtGs(multa)}</div><div style="font-size:10px;color:var(--text2)">Multa</div></div>
+      </div>
+    </div>`;
+
+    matches.forEach((match, i) => {
+      const predSel   = vals[3 + i*2] || '--';
+      const predForma = vals[4 + i*2] || '--';
+      const fin     = match.Estado === 'Finalizado';
+      const ganador = String(match.Ganador || '');
+      const resol   = String(match.Resolucion || '');
+      const selOk   = fin && ganador && predSel === ganador;
+      const formaOk = fin && resol   && predForma === resol;
+
+      let ptsMatch = 0;
+      if (participantPuntos) {
+        ptsMatch = (Number(participantPuntos[`Sel_P${i+1}`])||0) + (Number(participantPuntos[`Forma_P${i+1}`])||0);
+      }
+
+      const {fechaLegible, horaLegible} = parseFechaHoraElim(match.Fecha, match.Hora_PY);
+      const teamA = match.Equipo_A || 'Pendiente';
+      const teamB = match.Equipo_B || 'Pendiente';
+
+      const selColor   = !fin ? 'var(--text)' : selOk   ? 'var(--green)' : 'var(--red)';
+      const formaColor = !fin ? 'var(--text2)' : formaOk ? 'var(--green)' : fin && selOk ? 'var(--text2)' : 'var(--text3)';
+      const borderCol  = !fin ? 'var(--border)' : selOk ? 'var(--green)' : 'var(--red)';
+
+      html += `<div class="match-card ${fin?'played':'pending'}" style="margin-bottom:8px;border-left:3px solid ${borderCol}">
+        <div class="match-header">
+          <div class="match-grp">${match.P_Oficial||''} · P${match.N_Partido}</div>
+          <div class="match-date">${fechaLegible} ${horaLegible}</div>
+        </div>
+        <div class="match-teams">
+          <div class="team-name team-home ${fin&&ganador===teamA?'c-gold':''}">${teamA}</div>
+          <div class="score-box">
+            <div class="score ${fin&&ganador===teamA?'winner':''}">${fin?match.Goles_A_90:'--'}</div>
+            <div class="score-sep">:</div>
+            <div class="score ${fin&&ganador===teamB?'winner':''}">${fin?match.Goles_B_90:'--'}</div>
+          </div>
+          <div class="team-name team-away ${fin&&ganador===teamB?'c-gold':''}">${teamB}</div>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px">
+          <div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:2px">Tu apuesta</div>
+            <div style="font-size:13px;font-weight:600;color:${selColor}">${predSel}</div>
+            <div style="font-size:11px;color:${formaColor}">${predForma}</div>
+          </div>
+          ${fin ? `<div style="text-align:right">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:2px">Resultado</div>
+            <div style="font-size:13px;font-weight:600;color:var(--gold)">${ganador}</div>
+            <div style="font-size:11px;color:var(--text2)">${resol}</div>
+          </div>` : '<div style="font-size:11px;color:var(--text3);align-self:center">Pendiente</div>'}
+          ${fin ? `<div style="font-size:16px;font-weight:700;color:${selOk?'var(--green)':'var(--red)'};align-self:center;text-align:right">
+            ${selOk ? '+'+ptsMatch+' pts' : '0 pts'}
+            ${!selOk ? '<div style="font-size:10px;color:var(--red)">-'+fmtGs(2500)+'</div>' : formaOk ? '<div style="font-size:10px;color:var(--blue)">forma ✓</div>' : ''}
+          </div>` : ''}
+        </div>
+      </div>`;
+    });
+
+    el.innerHTML = html;
+  } catch(e) { el.innerHTML = errHTML('showApuestasParticipante: '+e.message); }
+}
+
 
 </script>
 </body>
