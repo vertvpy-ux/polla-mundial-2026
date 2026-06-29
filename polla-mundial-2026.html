@@ -1607,7 +1607,8 @@ function parseFechaHoraElim(fecha, hora) {
   let day=0, month=0, hh=0, mm=0;
   const fStr = String(fecha||'');
   if (fStr.includes('/')) { const p=fStr.split('/'); day=parseInt(p[0]); month=parseInt(p[1]); }
-  else if (fStr.length>5 && fStr.includes('-') && !fStr.includes('T')) { const p=fStr.split('-'); day=parseInt(p[2]); month=parseInt(p[1]); }
+  else if (fStr.includes('T')) { const d=new Date(fStr); day=d.getDate(); month=d.getMonth()+1; }
+  else if (fStr.length>5 && fStr.includes('-')) { const p=fStr.split('-'); day=parseInt(p[2]); month=parseInt(p[1]); }
   const hStr = String(hora||'');
   let horaLegible = '--';
   if (hStr.includes('T')) {
@@ -1990,7 +1991,7 @@ async function renderApuestasElim() {
   try {
     const [bracket, resp, puntos] = await Promise.all([
       cacheElim['bracket'] || getElim('bracket'),
-      cacheElim['respuestas&ronda=16avos'] || getElim('respuestas','&ronda=16avos'),
+      cacheElim['resp_16avos'] || getElim('respuestas','&ronda=16avos'),
       cacheElim['puntos&ronda=16avos']     || getElim('puntos','&ronda=16avos')
     ]);
     cacheElim['bracket'] = bracket;
@@ -1998,7 +1999,7 @@ async function renderApuestasElim() {
     cacheElim['puntos&ronda=16avos'] = puntos;
 
     const participants = [...new Set(
-      (Array.isArray(resp)?resp:[]).map(r => r['Nombre completo']||r['Nombre']||'').filter(Boolean)
+      (Array.isArray(resp)?resp:[]).map(r => String(Object.values(r)[2]||'')).filter(Boolean)
     )].sort();
 
     el.innerHTML = `
