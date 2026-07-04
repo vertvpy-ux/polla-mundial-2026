@@ -2069,20 +2069,9 @@ async function showApuestasParticipante(ronda) {
     // Build response values array
     const vals = lastResp ? Object.values(lastResp) : [];
 
-    // Summary
-    const pts    = participantPuntos ? Number(participantPuntos['Pts_Total'])||0   : 0;
-    const aciert = participantPuntos ? Number(participantPuntos['Aciertos_Sel'])||0 : 0;
-    const err    = participantPuntos ? Number(participantPuntos['Errados_Sel'])||0  : 0;
-    const multa  = participantPuntos ? Number(participantPuntos['Multa'])||0        : 0;
-
-    let html = `<div class="cd-banner" style="border-color:var(--blue);margin-bottom:10px;padding:12px 14px">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center">
-        <div><div style="font-size:20px;font-weight:600;color:var(--blue)">${pts}</div><div style="font-size:10px;color:var(--text2)">Puntos</div></div>
-        <div><div style="font-size:20px;font-weight:600;color:var(--green)">${aciert}</div><div style="font-size:10px;color:var(--text2)">Aciertos</div></div>
-        <div><div style="font-size:20px;font-weight:600;color:var(--red)">${err}</div><div style="font-size:10px;color:var(--text2)">Errados</div></div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--red)">${fmtGs(multa)}</div><div style="font-size:10px;color:var(--text2)">Multa</div></div>
-      </div>
-    </div>`;
+    // Totals computed from match results directly (no dependency on PUNTOS sheet)
+    let totalPts=0, totalAc=0, totalErr=0, totalMul=0;
+    let html = '';
 
     if (!lastResp) {
       html += `<div class="info-box">Sin respuesta del formulario para <strong>${nombre}</strong>.</div>`;
@@ -2109,6 +2098,7 @@ async function showApuestasParticipante(ronda) {
       const selPts  = selOk   ? 2 : 0;
       const formPts = formaOk ? 1 : 0;
       const ptsMatch = selPts + formPts;
+      if (fin) { totalPts+=ptsMatch; if(selOk) totalAc++; else {totalErr++; totalMul+=2500;} }
 
       const {fechaLegible, horaLegible} = parseFechaHoraElim(m.Fecha, m.Hora_PY);
       const teamA = m.Equipo_A || 'Pendiente';
@@ -2152,7 +2142,15 @@ async function showApuestasParticipante(ronda) {
       </div>`;
     });
 
-    detEl.innerHTML = html;
+    const summaryHtml = `<div class="cd-banner" style="border-color:var(--blue);margin-bottom:10px;padding:12px 14px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center">
+        <div><div style="font-size:20px;font-weight:600;color:var(--blue)">${totalPts}</div><div style="font-size:10px;color:var(--text2)">Puntos</div></div>
+        <div><div style="font-size:20px;font-weight:600;color:var(--green)">${totalAc}</div><div style="font-size:10px;color:var(--text2)">Aciertos</div></div>
+        <div><div style="font-size:20px;font-weight:600;color:var(--red)">${totalErr}</div><div style="font-size:10px;color:var(--text2)">Errados</div></div>
+        <div><div style="font-size:14px;font-weight:600;color:var(--red)">${fmtGs(totalMul)}</div><div style="font-size:10px;color:var(--text2)">Multa</div></div>
+      </div>
+    </div>`;
+    detEl.innerHTML = summaryHtml + html;
   } catch(e) {
     detEl.innerHTML = `<div class="info-box" style="color:var(--red)">Error: ${e.message}</div>`;
   }
