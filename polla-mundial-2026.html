@@ -2106,8 +2106,8 @@ async function showApuestasParticipante(ronda) {
       const selOk   = fin && ganador && predSel   === ganador;
       const formaOk = fin && resol   && predForma === resol;
 
-      const selPts  = participantPuntos ? Number(participantPuntos[`Sel_P${m.N_Partido}`])||0   : 0;
-      const formPts = participantPuntos ? Number(participantPuntos[`Forma_P${m.N_Partido}`])||0 : 0;
+      const selPts  = selOk   ? 2 : 0;
+      const formPts = formaOk ? 1 : 0;
       const ptsMatch = selPts + formPts;
 
       const {fechaLegible, horaLegible} = parseFechaHoraElim(m.Fecha, m.Hora_PY);
